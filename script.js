@@ -205,13 +205,26 @@ function initLightbox() {
     });
   });
 
+  // Helper: pause all videos on the page (both inline and lightbox)
+  function pauseAllVideos() {
+    document.querySelectorAll('video').forEach(v => {
+      v.pause();
+    });
+  }
+
   function openLightbox() {
+    pauseAllVideos(); // Stop any playing inline videos
     updateLightboxContent();
     lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Disable page scrolling
+    document.body.style.overflow = 'hidden';
   }
 
   function closeLightbox() {
+    pauseAllVideos(); // Stop any lightbox video
+    // Remove lightbox video element
+    const lbWrapper = document.getElementById('lightboxIframeWrapper');
+    const existingVid = lbWrapper ? lbWrapper.querySelector('video.lightbox-video') : null;
+    if (existingVid) existingVid.remove();
     lightbox.classList.remove('active');
     document.body.style.overflow = '';
   }
@@ -284,14 +297,25 @@ function initLightbox() {
     }
   }
 
+  // Auto-pause other inline card videos when one starts playing
+  document.addEventListener('play', function(e) {
+    if (e.target.tagName === 'VIDEO') {
+      document.querySelectorAll('video').forEach(v => {
+        if (v !== e.target) v.pause();
+      });
+    }
+  }, true);
+
   function showNext() {
     if (galleryImages.length === 0) return;
+    pauseAllVideos();
     currentIndex = (currentIndex + 1) % galleryImages.length;
     updateLightboxContent();
   }
 
   function showPrev() {
     if (galleryImages.length === 0) return;
+    pauseAllVideos();
     currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
     updateLightboxContent();
   }
