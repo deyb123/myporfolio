@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "skills": {
+    "brand-guidelines": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/brand-guidelines/SKILL.md",
+      "computedHash": "c82f0b24cdcc7e2693a963d30c810558b7bb89ed84508b2328228d21256ef865"
+    },
+    "design-sprint": {
+      "source": "wondelai/skills",
+      "sourceType": "github",
+      "skillPath": "design-sprint/SKILL.md",
+      "computedHash": "454ad8c94bae3577a654540a1899bb630da57434656097d9ec9e64cc8e896c8a"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "computedHash": "516bd2154eb843a8240e43d5b285229129853114ad7075a5e141e1c08e408c84"
+    },
+    "hooked-ux": {
+      "source": "wondelai/skills",
+      "sourceType": "github",
+      "skillPath": "hooked-ux/SKILL.md",
+      "computedHash": "2b9f0fa285d110280fe35e1bf97606478fb97273177793bc416a9d709585b78e"
+    },
+    "ios-hig-design": {
+      "source": "wondelai/skills",
+      "sourceType": "github",
+      "skillPath": "ios-hig-design/SKILL.md",
+      "computedHash": "ea85f8ced9d68a6df5d1beca105be39f99a33ae72a02a1a7d9b6c56532362716"
+    },
+    "refactoring-ui": {
+      "source": "wondelai/skills",
+      "sourceType": "github",
+      "skillPath": "refactoring-ui/SKILL.md",
+      "computedHash": "a4d8ead4a0c44f3ed6c4228db417ae8c72d29d0b29b4435853239a973fafb6f7"
+    },
+    "shadcn-ui": {
+      "source": "giuseppe-trisciuoglio/developer-kit",
+      "sourceType": "github",
+      "skillPath": "plugins/developer-kit-typescript/skills/shadcn-ui/SKILL.md",
+      "computedHash": "5264d0399edb2e9cb517c722067fea44657a35ece43407a3aaa9e3ba9bd7f670"
+    },
+    "skill-creator": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/skill-creator/SKILL.md",
+      "computedHash": "7e3c9cd74e9e2b4828527a857170e86310f2dab5ea8030a9043df2c7e6c88857"
+    },
+    "theme-factory": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/theme-factory/SKILL.md",
+      "computedHash": "e9ec1fe85faa729e9f3d1731cd7e4e485f98c099ccc7c1c0d198f473aa4b654a"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
+      "computedHash": "6337038fe1fe6bbe1b9f252ab678ee575859190bab6f0f246f4061824eb40875"
+    },
+    "ux-heuristics": {
+      "source": "wondelai/skills",
+      "sourceType": "github",
+      "skillPath": "ux-heuristics/SKILL.md",
+      "computedHash": "ad7fe92cf0e0758e5274b6b17affbb56d17ce1c9c550b8b0b93c09e37da70960"
+    },
+    "web-design-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/web-design-guidelines/SKILL.md",
+      "computedHash": "f3bc47f890f42a44db1007ab390709ec368e4b8c089baee6b0007182236ac474"
+    }
+  }
+}

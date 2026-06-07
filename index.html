@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Portfolio</title>
+  <meta name="description"
+    content="Explore Dave Tupas's academic portfolio showcasing his journey through DNSC's Information Systems program, coursework, projects, and skills development." />
+  <meta property="og:title" content="Dave Tupas — Information Systems Portfolio" />
+  <meta property="og:description"
+    content="Sometimes the only way to ever find yourself is to get completely lost. — And I'm still finding my way, semester by semester." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Ambient Background Canvas & Orbs -->
+  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+  <div class="hero-orb-a" aria-hidden="true"></div>
+  <div class="hero-orb-b" aria-hidden="true"></div>
+
+  <!-- Custom Cursor -->
+  <div class="custom-cursor" id="customCursor" aria-hidden="true"></div>
+  <div class="custom-cursor-dot" id="customCursorDot" aria-hidden="true"></div>
+
+  <!-- Scroll Progress Indicator -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- NAVIGATION -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">My <em>Portfolio</em></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about-me">About Me</a></li>
+      <li><a href="#hobbies">Hobbies</a></li>
+      <li><a href="#journey">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme color" title="Toggle cyber amber theme">
+      <span class="theme-icon">⚡</span>
+    </button>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+      <span class="hamburger"></span>
+    </button>
+    <a href="mailto:tupas.dave@dnsc.edu.ph" class="nav-cta">Contact</a>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header id="hero" class="hero-redesign">
+    <div class="hero-visual">
+      <div class="hero-image-wrapper">
+        <img src="assets/profile_monochrome.png" alt="Dave Tupas" class="hero-profile-img">
+        <div class="image-fade-mask"></div>
+      </div>
+    </div>
+
+    <div class="hero-info">
+      <p class="hero-label">ABOUT PERSONAL</p>
+      <h1 class="hero-name">Hello, Im Dave<br><span class="text-cyan">Tupas</span></h1>
+      <div class="hero-divider"></div>
+      <p class="hero-desc">Sometimes the only way to ever find yourself is to get completely lost. — And I'm still
+        finding my way, semester by semester. I could also master some basics in programming. The only thing I can do
+        now is move forward and keep improving.</p>
+      <p class="hero-signature">Dave Tupas</p>
+
+      <div class="hero-socials">
+        <a href="#" class="social-icon" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+          </svg></a>
+        <a href="#" class="social-icon" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path
+              d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
+            </path>
+          </svg></a>
+        <a href="#" class="social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg></a>
+      </div>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- SERVICES SECTION -->
+  <section id="services">
+    <div class="wrap reveal">
+      <div class="services-container">
+        <div class="services-info">
+          <p class="section-label">My Services</p>
+          <h2 class="section-title">Academic &amp;<br>Technical Focus</h2>
+          <p class="section-sub">Competencies and practical areas developed through coursework in the Information
+            Systems curriculum at DNSC.</p>
+          <a href="#journey" class="btn-primary">Read More</a>
+        </div>
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="sk-icon">🌐</div>
+            <h3>Frontend Develop</h3>
+            <p>Creating responsive layouts using HTML, CSS, and structural web technologies like Google Sites.</p>
+          </div>
+          <div class="service-card">
+            <div class="sk-icon">💻</div>
+            <h3>Java Programming</h3>
+            <p>Writing computer application logic with OOP, working on desktop systems with Java Swing, and CRUD
+              architectures.</p>
+          </div>
+          <div class="service-card">
+            <div class="sk-icon">📊</div>
+            <h3>Systems Analysis</h3>
+            <p>Designing structures, database schemas (MySQL), and managing system architectures (MIS).</p>
+          </div>
+          <div class="service-card">
+            <div class="sk-icon">🎬</div>
+            <h3>Creative &amp; Spoof</h3>
+            <p>Editing raster digital layouts with Adobe Photoshop, production, and video editing spoofs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP SECTION -->
+  <section class="stats-strip">
+    <div class="wrap reveal">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <h2><span class="stat-number" data-target="2">0</span><span class="stat-plus">+</span></h2>
+          <p>Years College Standing</p>
+        </div>
+        <div class="stat-item">
+          <h2><span class="stat-number" data-target="12">0</span><span class="stat-plus">+</span></h2>
+          <p>Core Subjects Completed</p>
+        </div>
+        <div class="stat-item">
+          <h2><span class="stat-number" data-target="8">0</span><span class="stat-plus">+</span></h2>
+          <p>Academic Projects</p>
+        </div>
+        <div class="stat-item">
+          <h2><span class="stat-number" data-target="2">0</span></h2>
+          <p>Graduation Honors</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- MORE ABOUT ME / TIMELINE & SKILLS -->
+  <section id="about-me">
+    <div class="wrap reveal">
+      <p class="section-label">Profile</p>
+      <h2 class="section-title">More About Me</h2>
+
+      <div class="about-me-container">
+        <!-- Left Column: Education -->
+        <div class="about-education">
+          <h3>My Education</h3>
+          <div class="education-timeline">
+            <div class="timeline-item">
+              <span class="timeline-date">2023 - Present</span>
+              <h4>College Enrollment</h4>
+              <p class="timeline-school">Davao del Norte State College</p>
+              <p>Pursuing a Bachelor of Science in Information Systems (BSIS). Building competencies in database design,
+                object programming, and web technology.</p>
+            </div>
+            <div class="timeline-item">
+              <span class="timeline-date">2019 - 2021</span>
+              <h4>Senior High Graduation</h4>
+              <p class="timeline-school">A.L. Navarro National High School</p>
+              <p>Completed the Academic Track as an honor graduate during the remote modular/online learning period.</p>
+            </div>
+            <div class="timeline-item">
+              <span class="timeline-date">2008 - 2014</span>
+              <h4>Elementary Graduation</h4>
+              <p class="timeline-school">Apokon Elementary School</p>
+              <p>Consistent academic honor student, establishing basic logic, reading comprehension, and study habits.
+              </p>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- HOBBIES SECTION -->
+  <section id="hobbies">
+    <div class="wrap">
+      <p class="section-label">Hobbies &amp; Interests</p>
+      <h2 class="section-title">What I Do Outside Class</h2>
+      <p class="section-sub">The activities that keep Dave grounded, creative, and motivated.</p>
+
+      <div class="hobbies-grid">
+        <div class="hobby-card reveal">
+          <div class="hobby-icon">📖</div>
+          <p class="hobby-name">Reading</p>
+          <p class="hobby-desc">A daily routine. Helps wash away academic stress, achieving both learning and enjoyment
+            at the same time.</p>
+        </div>
+        <div class="hobby-card reveal">
+          <div class="hobby-icon">✏️</div>
+          <p class="hobby-name">Drawing</p>
+          <p class="hobby-desc">Creative outlet. Mostly mood-dependent, but Dave enjoys the process of sketching when
+            inspired.</p>
+        </div>
+        <div class="hobby-card reveal">
+          <div class="hobby-icon">🎮</div>
+          <p class="hobby-name">Online Gaming</p>
+          <p class="hobby-desc">A fun way to unwind. Progressing slowly but enjoying the challenges and online match
+            processes.</p>
+        </div>
+        <div class="hobby-card reveal">
+          <div class="hobby-icon">🔍</div>
+          <p class="hobby-name">Discovering New Things</p>
+          <p class="hobby-desc">Dave values quiet time and solitude, finding it provides space and focus to explore new
+            ideas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ACADEMIC JOURNEY / LATEST PROJECTS SECTION -->
+  <section id="journey">
+    <div class="wrap">
+      <p class="section-label">Academic Journey</p>
+      <h2 class="section-title">My Latest Projects</h2>
+      <p class="section-sub">A record of courses and practical outputs at DNSC. Click the project screenshots to view
+        them in detail.</p>
+
+      <div class="subj-projects" style="margin-top: 3rem;">
+        <!-- Card 1: Video -->
+        <div class="proj-card">
+          <div class="proj-img-wrapper">
+            <video src="assets/loan_management.mp4" controls class="proj-img" style="object-fit: cover; border-radius: 12px;"></video>
+            <div class="proj-info-overlay">
+              <p class="proj-title">Loan Management System</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Outline Defense -->
+        <div class="proj-card">
+          <div class="proj-img-wrapper">
+            <img src="assets/outline_defense.jpg" alt="Outline Defense Passed" class="proj-img" style="object-fit: cover; border-radius: 12px; height: 100%; width: 100%;">
+            <div class="proj-info-overlay">
+              <p class="proj-title">Capstone 1</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Paytrack Logo -->
+        <div class="proj-card">
+          <div class="proj-img-wrapper">
+            <img src="assets/paytrack_logo.jpg" alt="Paytrack Logo" class="proj-img" style="object-fit: cover; border-radius: 12px; height: 100%; width: 100%;">
+            <div class="proj-info-overlay">
+              <p class="proj-title">Paytrack Logo Design</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Sundayag Innovateers Team -->
+        <div class="proj-card">
+          <div class="proj-img-wrapper">
+            <img src="assets/sundayag_innovateers.jpg" alt="Sundayag Innovateers Team" class="proj-img" style="object-fit: cover; border-radius: 12px; height: 100%; width: 100%;">
+            <div class="proj-info-overlay">
+              <p class="proj-title">Sundayag Innovateers Team</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5: Innovateers Logo -->
+        <div class="proj-card">
+          <div class="proj-img-wrapper">
+            <img src="assets/innovateers_logo.jpg" alt="Innovateers Logo" class="proj-img" style="object-fit: cover; border-radius: 12px; height: 100%; width: 100%;">
+            <div class="proj-info-overlay">
+              <p class="proj-title">Innovateers Logo</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6: Certificates -->
+        <div class="proj-card">
+          <div class="proj-img-wrapper">
+            <img src="assets/certificates.jpg" alt="Innovateers Certificates" class="proj-img" style="object-fit: cover; border-radius: 12px; height: 100%; width: 100%;">
+            <div class="proj-info-overlay">
+              <p class="proj-title">Innovateers Certificates</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 7: PayTrack Website -->
+        <div class="proj-card proj-card--link" data-iframe="https://paytrack.figma.site/">
+          <div class="proj-img-wrapper">
+            <img src="assets/paytrack_live_site.png" alt="PayTrack Website" class="proj-img" style="object-fit: cover; object-position: top; background:#0d1a12; border-radius: 12px; height: 100%; width: 100%;">
+            <div class="proj-info-overlay">
+              <p class="proj-title">PayTrack — Live Site</p>
+            </div>
+            <div class="proj-link-badge">👆 Click to Preview</div>
+          </div>
+        </div>
+
+        <!-- Card 8: PayTrack Prototype -->
+        <div class="proj-card proj-card--link" data-iframe="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2F6Q07U9g0PxdLxXm4JFEQFQ%2FPaytrack-2.0%3Fnode-id%3D2-5%26p%3Df%26viewport%3D262%252C170%252C0.05%26t%3D25TsBVVeKj8IeVQl-1%26scaling%3Dscale-down%26content-scaling%3Dfixed%26starting-point-node-id%3D2%253A5%26page-id%3D2%253A3">
+          <div class="proj-img-wrapper">
+            <img src="assets/paytrack_prototype.png" alt="PayTrack Prototype" class="proj-img" style="object-fit: cover; object-position: center; background:#000; border-radius: 12px; height: 100%; width: 100%;">
+            <div class="proj-info-overlay">
+              <p class="proj-title">PayTrack — Interactive Prototype</p>
+            </div>
+            <div class="proj-link-badge">👆 Click to Preview</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact">
+    <div class="wrap">
+      <p class="section-label">Contact</p>
+      <h2 class="section-title">Get in Touch</h2>
+      <p class="section-sub">Open to academic collaboration, course-related discussions, or just a friendly hello.</p>
+
+      <div class="contact-grid reveal">
+        <div class="contact-links">
+          <a href="mailto:tupas.dave@dnsc.edu.ph" class="contact-link">
+            <div class="cl-icon">✉</div>
+            <div>
+              <p class="cl-name">Email</p>
+              <p class="cl-val">tupas.dave@dnsc.edu.ph</p>
+            </div>
+          </a>
+          <a href="https://www.instagram.com/deyb_vy/" class="contact-link" target="_blank" rel="noopener noreferrer">
+            <div class="cl-icon">📷</div>
+            <div>
+              <p class="cl-name">Instagram</p>
+              <p class="cl-val">@deyb_vy</p>
+            </div>
+          </a>
+          <a href="https://www.facebook.com/deyb.deyb.562" class="contact-link" target="_blank"
+            rel="noopener noreferrer">
+            <div class="cl-icon">👤</div>
+            <div>
+              <p class="cl-name">Facebook</p>
+              <p class="cl-val">Dave Tupas</p>
+            </div>
+          </a>
+          <a href="https://twitter.com/Devy_yb" class="contact-link" target="_blank" rel="noopener noreferrer">
+            <div class="cl-icon">𝕏</div>
+            <div>
+              <p class="cl-name">Twitter / X</p>
+              <p class="cl-val">@Devy_yb</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="contact-quote">
+          <p class="cq-text">"Sometimes the only way to ever find yourself is to get completely lost."</p>
+          <p class="cq-author">— Dave Tupas · Personal Homepage Quote</p>
+
+          <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border)">
+            <p class="cq-author" style="margin-bottom:.75rem;">Source Sites</p>
+            <div class="sources" style="margin-top:0">
+              <a href="https://sites.google.com/dnsc.edu.ph/dave-tupas/home" class="source-chip" target="_blank"
+                rel="noopener noreferrer">Personal Site ↗</a>
+              <a href="https://sites.google.com/dnsc.edu.ph/2024-online-portfolio-tupas/home" class="source-chip"
+                target="_blank" rel="noopener noreferrer">Academic Portfolio ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Embedded Maps, Calendars, Forms -->
+      <div class="contact-widgets-container reveal">
+        <!-- Interactive Google Map -->
+        <div class="contact-widget-card">
+          <h3><span class="widget-icon">📍</span> My Location — Lasang, Davao del Sur</h3>
+          <div class="iframe-wrapper">
+            <iframe class="map-iframe"
+              src="https://maps-api-ssl.google.com/maps?hl=en-US&amp;ll=7.254168,125.67337&amp;output=embed&amp;q=7.254297,125.673626+(Untitled+Location)&amp;z=17"
+              allowfullscreen="" loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- Google Calendar -->
+        <div class="contact-widget-card">
+          <h3><span class="widget-icon">📅</span> Temporary Schedule</h3>
+          <div class="iframe-wrapper">
+            <iframe
+              src="https://www.google.com/calendar/embed?color=%239fe1e7&amp;embed_style=WyJhdDplbWI6c3QiLCIjZTBlMGUwIiwiI2VkZWRlZCIsIiM0MTg0ZjMiLCJyb2JvdG8iLCIjNjM2MzYzIiw1MDAsIiNmZmYiXQo&amp;eopt=2&amp;mode=month&amp;showCalendars=1&amp;showPrint=0&amp;showTz=1&amp;src=tupas.dave@dnsc.edu.ph"
+              loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- Google Form Survey -->
+        <div class="contact-widget-card">
+          <h3><span class="widget-icon">📋</span> Survey Form</h3>
+          <div class="iframe-wrapper">
+            <iframe
+              src="https://docs.google.com/forms/d/e/1FAIpQLSegkyB6Y8G7Dvb6qP92OjpTM6ENCtLEbiyJ4X-6x1DJ0_njFg/viewform?embedded=true"
+              loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="foot-left">© 2025 <strong>Dave Tupas</strong> · BS Information Systems · Davao del Norte State College</p>
+    <div class="foot-right">
+      <a href="#background">Achievements</a>
+      <a href="#journey">Journey</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </footer>
+
+  <!-- LIGHTBOX MODAL FOR IMAGES & IFRAMES -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">&times;</button>
+    <button class="lightbox-btn lightbox-prev" id="lightboxPrev" aria-label="Previous image">&#10094;</button>
+    <div class="lightbox-content">
+      <img src="" alt="" class="lightbox-img" id="lightboxImg">
+      <iframe src="" class="lightbox-iframe" id="lightboxIframe" style="display:none; border:none; width:100%; max-width:800px; height:80vh; border-radius:12px; margin:auto;" allowfullscreen></iframe>
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+    <button class="lightbox-btn lightbox-next" id="lightboxNext" aria-label="Next image">&#10095;</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
