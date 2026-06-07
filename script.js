@@ -385,6 +385,8 @@ function initCustomCursor() {
   let mouseX = 0, mouseY = 0;
   let ringX = 0, ringY = 0;
   
+  let isOverIframe = false;
+
   window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
@@ -393,8 +395,10 @@ function initCustomCursor() {
     cursorDot.style.left = mouseX + 'px';
     cursorDot.style.top = mouseY + 'px';
     
-    cursor.style.opacity = '1';
-    cursorDot.style.opacity = '1';
+    if (!isOverIframe) {
+      cursor.style.opacity = '1';
+      cursorDot.style.opacity = '1';
+    }
   });
   
   // Smooth outer ring using Linear Interpolation (lerp)
@@ -428,18 +432,22 @@ function initCustomCursor() {
     cursorDot.style.opacity = '0';
   });
   document.addEventListener('mouseenter', () => {
-    cursor.style.opacity = '1';
-    cursorDot.style.opacity = '1';
+    if (!isOverIframe) {
+      cursor.style.opacity = '1';
+      cursorDot.style.opacity = '1';
+    }
   });
   
   // Hide cursor over iframes to prevent it getting stuck
-  const iframes = document.querySelectorAll('iframe');
-  iframes.forEach(iframe => {
-    iframe.addEventListener('mouseenter', () => {
+  const iframeWrappers = document.querySelectorAll('iframe, .iframe-wrapper');
+  iframeWrappers.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      isOverIframe = true;
       cursor.style.opacity = '0';
       cursorDot.style.opacity = '0';
     });
-    iframe.addEventListener('mouseleave', () => {
+    el.addEventListener('mouseleave', () => {
+      isOverIframe = false;
       cursor.style.opacity = '1';
       cursorDot.style.opacity = '1';
     });
