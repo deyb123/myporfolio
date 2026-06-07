@@ -1403,8 +1403,6 @@ nav.collapsed .nav-cta {
 
 /* ====================================================
    LAYOUT OVERRIDES (GRID AND LIST MODES)
-   Cards are placed directly in .subj-projects in these modes
-   (carousel DOM is fully removed by JS)
    ==================================================== */
 
 /* ---- Grid Mode ---- */
@@ -1421,12 +1419,9 @@ nav.collapsed .nav-cta {
   width: 100%;
   aspect-ratio: 16 / 9;
   border-radius: 16px;
-  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.07);
   background: rgba(14, 20, 43, 0.4);
   backdrop-filter: blur(10px);
-  transition: transform 0.3s var(--ease-out), border-color 0.3s, box-shadow 0.3s;
-  cursor: pointer;
 }
 
 .subj-projects.view-grid .proj-card:hover {
@@ -1457,18 +1452,13 @@ nav.collapsed .nav-cta {
 }
 
 .subj-projects.view-list .proj-card {
-  display: flex;
   flex-direction: row;
-  position: relative;
   width: 100%;
   height: auto;
   border-radius: 16px;
-  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.07);
   background: rgba(14, 20, 43, 0.4);
   backdrop-filter: blur(10px);
-  transition: transform 0.3s var(--ease-out), border-color 0.3s, box-shadow 0.3s;
-  cursor: pointer;
 }
 
 .subj-projects.view-list .proj-card:hover {
@@ -1481,7 +1471,6 @@ nav.collapsed .nav-cta {
   width: 260px;
   flex-shrink: 0;
   aspect-ratio: 16 / 9;
-  border-radius: 0;
   overflow: hidden;
 }
 
@@ -1494,53 +1483,26 @@ nav.collapsed .nav-cta {
   padding: 1.75rem 2rem;
   flex-grow: 1;
   opacity: 1;
-  pointer-events: auto;
 }
 
-.subj-projects.view-list .proj-title {
-  font-size: 1.2rem;
-  margin-bottom: 0.4rem;
-}
+.subj-projects.view-list .proj-title { font-size: 1.2rem; margin-bottom: 0.4rem; }
+.subj-projects.view-list .proj-desc  { font-size: 0.92rem; line-height: 1.6; color: var(--text-muted); }
 
-.subj-projects.view-list .proj-desc {
-  font-size: 0.92rem;
-  line-height: 1.6;
-  color: var(--text-muted);
-}
-
-/* Safety net: hide carousel DOM if still present in non-carousel modes */
-.subj-projects.view-grid .coverflow-track,
-.subj-projects.view-list .coverflow-track,
-.subj-projects.view-grid .carousel-controls,
-.subj-projects.view-list .carousel-controls,
-.subj-projects.view-grid .carousel-active-title,
-.subj-projects.view-list .carousel-active-title {
+/* Safety net: hide carousel chrome in flat views */
+.subj-projects:not(.view-carousel) .coverflow-track,
+.subj-projects:not(.view-carousel) .carousel-controls,
+.subj-projects:not(.view-carousel) .carousel-active-title {
   display: none !important;
 }
 
 /* ---- Responsive ---- */
 @media (max-width: 768px) {
-  .projects-toolbar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-  }
-  .layout-toggle-group {
-    justify-content: center;
-  }
-  .subj-projects.view-list .proj-card {
-    flex-direction: column;
-  }
-  .subj-projects.view-list .proj-img-wrapper {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-  }
-  .subj-projects.view-list .proj-info-overlay {
-    padding: 1.25rem;
-  }
-  .subj-projects.view-grid {
-    grid-template-columns: 1fr;
-  }
+  .projects-toolbar { flex-direction: column; align-items: stretch; gap: 1rem; }
+  .layout-toggle-group { justify-content: center; }
+  .subj-projects.view-grid { grid-template-columns: 1fr; }
+  .subj-projects.view-list .proj-card { flex-direction: column; }
+  .subj-projects.view-list .proj-img-wrapper { width: 100%; aspect-ratio: 16/9; }
+  .subj-projects.view-list .proj-info-overlay { padding: 1.25rem; }
 }
 
 
@@ -1566,9 +1528,8 @@ nav.collapsed .nav-cta {
   margin: 1rem 0 0;
 }
 
-/* All project cards absolutely centered */
+/* Base card — layout-agnostic (no position/size set here) */
 .proj-card {
-  position: absolute;
   display: flex;
   flex-direction: column;
   text-decoration: none;
@@ -1576,6 +1537,15 @@ nav.collapsed .nav-cta {
   border: 2px solid transparent;
   border-radius: 20px;
   overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s var(--ease-out),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+}
+
+/* Carousel-specific card positioning — ONLY inside coverflow-track */
+.coverflow-track .proj-card {
+  position: absolute;
   width: 650px;
   aspect-ratio: 16/9;
   top: 50%;
@@ -1583,29 +1553,26 @@ nav.collapsed .nav-cta {
   margin-left: -325px;
   margin-top: -183px;
   transform-origin: center center;
-  
-  /* transitions driven by JS */
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
               opacity   0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
               box-shadow 0.3s ease,
               border-color 0.3s ease;
-  cursor: pointer;
   will-change: transform, opacity;
 }
 
 /* Active (center) card */
-.proj-card.coverflow-active {
+.coverflow-track .proj-card.coverflow-active {
   box-shadow: 0 0 25px rgba(0, 240, 255, 0.4), 0 10px 40px rgba(0, 0, 0, 0.4);
   border-color: var(--cyan);
   z-index: 20;
 }
 
-.proj-card.coverflow-active:hover {
+.coverflow-track .proj-card.coverflow-active:hover {
   box-shadow: 0 0 35px rgba(0, 240, 255, 0.6), 0 15px 50px rgba(0, 0, 0, 0.5);
 }
 
-/* info overlay hidden by default in this design to let images shine */
-.proj-card.coverflow-active .proj-info-overlay {
+/* info overlay hidden in carousel to let images shine */
+.coverflow-track .proj-card.coverflow-active .proj-info-overlay {
   opacity: 0;
   pointer-events: none;
 }
