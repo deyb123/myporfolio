@@ -410,7 +410,7 @@ function initCustomCursor() {
   tick();
   
   // Hover states
-  const hoverTargets = document.querySelectorAll('a, button, .proj-card, .service-card, .ytab, .source-chip, .contact-link');
+  const hoverTargets = document.querySelectorAll('a, button, .proj-card, .service-card, .hobby-card, .subj-card, .ytab, .source-chip, .contact-link');
   hoverTargets.forEach(target => {
     target.addEventListener('mouseenter', () => {
       cursor.classList.add('cursor-hover');
