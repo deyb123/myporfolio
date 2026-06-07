@@ -241,9 +241,16 @@
       <h2 class="section-title">My Latest Projects</h2>
       <p class="section-sub">A curated collection of my academic journey, software applications, and design prototypes at DNSC. Click on any project card to explore interactive previews, live sites, and detailed views.</p>
 
+      <div class="project-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="videos">Videos</button>
+        <button class="filter-btn" data-filter="images">Images</button>
+        <button class="filter-btn" data-filter="apps">Apps & Websites</button>
+      </div>
+
       <div class="subj-projects" style="margin-top: 3rem;">
         <!-- Card 0: Tlexplorer App -->
-        <div class="proj-card proj-card--link" data-iframe="assets/tlexplorer/index.html">
+        <div class="proj-card proj-card--link" data-category="apps" data-iframe="assets/tlexplorer/index.html">
           <div class="proj-img-wrapper" style="cursor: pointer;">
             <div class="proj-link-badge">👆 Click to Preview</div>
             <img src="assets/tlexplorer/icons/Icon-512.png" alt="Tlexplorer App" class="proj-img" style="object-fit: contain; background: #1a1a1a; border-radius: 12px; height: 100%; width: 100%; padding: 2rem;">
@@ -255,7 +262,7 @@
         </div>
 
         <!-- Card: SINGKO Short Film -->
-        <div class="proj-card">
+        <div class="proj-card" data-category="videos">
           <div class="proj-img-wrapper" style="cursor: pointer;">
             <img src="assets/singko.png" alt="SINGKO Short Film" class="proj-img" style="object-fit: cover; object-position: center; border-radius: 12px; height: 100%; width: 100%;">
             <div class="proj-info-overlay">
@@ -265,7 +272,7 @@
           </div>
         </div>
         <!-- Card 1: Video -->
-        <div class="proj-card">
+        <div class="proj-card" data-category="apps">
           <div class="proj-img-wrapper">
             <video src="assets/loan_management.mp4" controls class="proj-img" style="object-fit: cover; border-radius: 12px;"></video>
             <div class="proj-info-overlay">
@@ -276,7 +283,7 @@
         </div>
 
         <!-- Card: Sa Akong Heart -->
-        <div class="proj-card">
+        <div class="proj-card" data-category="videos">
           <div class="proj-img-wrapper">
             <video src="assets/sa_akong_heart.mp4" controls class="proj-img" style="object-fit: cover; border-radius: 12px; background: #000;"></video>
             <div class="proj-info-overlay">
@@ -287,7 +294,7 @@
         </div>
 
         <!-- Card: Conflict Theory -->
-        <div class="proj-card">
+        <div class="proj-card" data-category="videos">
           <div class="proj-img-wrapper">
             <video src="assets/conflict_theory.mp4" controls class="proj-img" style="object-fit: cover; border-radius: 12px; background: #000;"></video>
             <div class="proj-info-overlay">
@@ -298,7 +305,7 @@
         </div>
 
         <!-- Card: Unofficial Trailer -->
-        <div class="proj-card">
+        <div class="proj-card" data-category="videos">
           <div class="proj-img-wrapper">
             <video src="assets/trailer_unofficial.mp4" controls class="proj-img" style="object-fit: cover; border-radius: 12px; background: #000;"></video>
             <div class="proj-info-overlay">
@@ -309,7 +316,7 @@
         </div>
 
         <!-- Card 2: Outline Defense -->
-        <div class="proj-card">
+        <div class="proj-card" data-category="images">
           <div class="proj-img-wrapper">
             <img src="assets/outline_defense.jpg" alt="Outline Defense Passed" class="proj-img" style="object-fit: cover; border-radius: 12px; height: 100%; width: 100%;">
             <div class="proj-info-overlay">
@@ -320,7 +327,7 @@
         </div>
 
         <!-- Card 3: Paytrack Logo -->
-        <div class="proj-card">
+        <div class="proj-card" data-category="images">
           <div class="proj-img-wrapper">
             <img src="assets/paytrack_logo.jpg" alt="Paytrack Logo" class="proj-img" style="object-fit: cover; border-radius: 12px; height: 100%; width: 100%;">
             <div class="proj-info-overlay">
@@ -331,7 +338,7 @@
         </div>
 
         <!-- Card 4: Sundayag Innovateers Team -->
-        <div class="proj-card">
+        <div class="proj-card" data-category="images">
           <div class="proj-img-wrapper">
             <img src="assets/sundayag_innovateers.jpg" alt="Sundayag Innovateers Team" class="proj-img" style="object-fit: cover; border-radius: 12px; height: 100%; width: 100%;">
             <div class="proj-info-overlay">
@@ -342,7 +349,7 @@
         </div>
 
         <!-- Card 5: Innovateers Logo -->
-        <div class="proj-card">
+        <div class="proj-card" data-category="images">
           <div class="proj-img-wrapper">
             <img src="assets/innovateers_logo.jpg" alt="Innovateers Logo" class="proj-img" style="object-fit: cover; border-radius: 12px; height: 100%; width: 100%;">
             <div class="proj-info-overlay">
@@ -353,7 +360,7 @@
         </div>
 
         <!-- Card 6: Certificates -->
-        <div class="proj-card">
+        <div class="proj-card" data-category="images">
           <div class="proj-img-wrapper">
             <img src="assets/certificates.jpg" alt="Innovateers Certificates" class="proj-img" style="object-fit: cover; border-radius: 12px; height: 100%; width: 100%;">
             <div class="proj-info-overlay">
@@ -364,7 +371,7 @@
         </div>
 
         <!-- Card 7: PayTrack Website -->
-        <div class="proj-card proj-card--link" data-iframe="https://paytrack.figma.site/">
+        <div class="proj-card proj-card--link" data-category="apps" data-iframe="https://paytrack.figma.site/">
           <div class="proj-img-wrapper">
             <img src="assets/paytrack_live_site.png" alt="PayTrack Website" class="proj-img" style="object-fit: cover; object-position: top; background:#0d1a12; border-radius: 12px; height: 100%; width: 100%;">
             <div class="proj-info-overlay">
@@ -376,7 +383,7 @@
         </div>
 
         <!-- Card 8: PayTrack Prototype -->
-        <div class="proj-card proj-card--link" data-iframe="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2F6Q07U9g0PxdLxXm4JFEQFQ%2FPaytrack-2.0%3Fnode-id%3D2-5%26p%3Df%26viewport%3D262%252C170%252C0.05%26t%3D25TsBVVeKj8IeVQl-1%26scaling%3Dscale-down%26content-scaling%3Dfixed%26starting-point-node-id%3D2%253A5%26page-id%3D2%253A3">
+        <div class="proj-card proj-card--link" data-category="apps" data-iframe="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2F6Q07U9g0PxdLxXm4JFEQFQ%2FPaytrack-2.0%3Fnode-id%3D2-5%26p%3Df%26viewport%3D262%252C170%252C0.05%26t%3D25TsBVVeKj8IeVQl-1%26scaling%3Dscale-down%26content-scaling%3Dfixed%26starting-point-node-id%3D2%253A5%26page-id%3D2%253A3">
           <div class="proj-img-wrapper">
             <img src="assets/paytrack_prototype.png" alt="PayTrack Prototype" class="proj-img" style="object-fit: cover; object-position: center; background:#000; border-radius: 12px; height: 100%; width: 100%;">
             <div class="proj-info-overlay">

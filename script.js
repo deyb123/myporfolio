@@ -555,6 +555,49 @@ function initCoverflowCarousels() {
     buildCarousel(container);
   });
 
+  // ---- Initialize Project Filters ----
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  // Assuming the main projects section has the filters
+  const projectsContainer = document.querySelector('#projects .subj-projects');
+  
+  if (filterBtns.length > 0 && projectsContainer) {
+    // Store original cards globally for this container
+    const allCardsOriginal = Array.from(projectsContainer.querySelectorAll('.proj-card'));
+    
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active class
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const filter = btn.dataset.filter;
+        
+        // Clear container completely
+        projectsContainer.innerHTML = '';
+        
+        // Re-append matching cards
+        allCardsOriginal.forEach(card => {
+          // Reset inline styles applied by carousel
+          card.style.transform = '';
+          card.style.opacity = '';
+          card.style.zIndex = '';
+          card.style.visibility = '';
+          card.style.pointerEvents = '';
+          card.style.filter = '';
+          card.classList.remove('coverflow-active');
+          card.classList.remove('hidden-card');
+          
+          if (filter === 'all' || card.dataset.category === filter) {
+            projectsContainer.appendChild(card);
+          }
+        });
+        
+        // Re-initialize carousel
+        buildCarousel(projectsContainer);
+      });
+    });
+  }
+
   // Re-init carousels when a year tab is clicked (panels show/hide)
   document.querySelectorAll('.ytab').forEach(tab => {
     tab.addEventListener('click', () => {
