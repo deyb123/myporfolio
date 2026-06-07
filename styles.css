@@ -2216,6 +2216,37 @@ footer::before {
   transform: translate(-50%, -50%) scale(1.1);
 }
 
+.video-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0.85;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.video-play-icon svg {
+  margin-left: 4px;
+}
+
+.proj-card:hover .video-play-icon {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.85);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
 .proj-link-badge {
   position: absolute;
   top: 15px;

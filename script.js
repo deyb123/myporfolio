@@ -186,8 +186,12 @@ function initLightbox() {
         const title = c.querySelector('.proj-title');
         
         if (iframeUrl || img) {
+          let type = 'img';
+          if (iframeUrl) {
+            type = iframeUrl.endsWith('.mp4') ? 'video' : (iframeUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? 'img' : 'iframe');
+          }
           galleryImages.push({
-            type: iframeUrl ? 'iframe' : 'img',
+            type: type,
             src: iframeUrl ? iframeUrl : img.src,
             title: title ? title.textContent : ''
           });
@@ -224,7 +228,11 @@ function initLightbox() {
     if (current.type === 'iframe') {
       lightboxImg.style.display = 'none';
       lightboxImg.src = '';
+      // Remove any existing video
+      const existingVid = lightboxIframeWrapper.querySelector('video.lightbox-video');
+      if (existingVid) existingVid.remove();
       lightboxIframeWrapper.style.display = 'block';
+      lightboxIframe.style.display = 'block';
       lightboxIframe.src = current.src;
       
       // Only apply iPhone styling to Tlexplorer mobile preview
@@ -235,9 +243,31 @@ function initLightbox() {
         lightboxIframeWrapper.classList.remove('iphone-mockup');
         iphoneNotch.style.display = 'none';
       }
+    } else if (current.type === 'video') {
+      lightboxImg.style.display = 'none';
+      lightboxImg.src = '';
+      lightboxIframe.style.display = 'none';
+      lightboxIframe.src = '';
+      lightboxIframeWrapper.classList.remove('iphone-mockup');
+      iphoneNotch.style.display = 'none';
+      // Remove any existing video
+      const existingVid = lightboxIframeWrapper.querySelector('video.lightbox-video');
+      if (existingVid) existingVid.remove();
+      // Create video element
+      const vid = document.createElement('video');
+      vid.src = current.src;
+      vid.controls = true;
+      vid.autoplay = true;
+      vid.className = 'lightbox-video';
+      vid.style.cssText = 'width:100%;height:100%;border-radius:12px;background:#000;';
+      lightboxIframeWrapper.style.display = 'block';
+      lightboxIframeWrapper.appendChild(vid);
     } else {
       lightboxIframeWrapper.style.display = 'none';
       lightboxIframe.src = '';
+      // Remove any existing video
+      const existingVid = lightboxIframeWrapper.querySelector('video.lightbox-video');
+      if (existingVid) existingVid.remove();
       lightboxImg.style.display = 'block';
       lightboxImg.src = current.src;
     }
