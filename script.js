@@ -156,19 +156,19 @@ function initScrollspy() {
   });
 }
 
-/* --- Intersection Observer Scroll Reveal --- */
 function initIntersectionObserver() {
   const observer = new IntersectionObserver(entries => {
-    entries.forEach((entry, i) => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
+      } else {
+        entry.target.classList.remove('visible');
       }
     });
   }, {
     root: null,
-    rootMargin: '0px 0px -50px 0px',
-    threshold: 0.08
+    rootMargin: '-50px 0px -50px 0px', // Allow exit triggers slightly before fully leaving viewport
+    threshold: 0.05
   });
 
   document.querySelectorAll('.reveal').forEach((el, i) => {
