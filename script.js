@@ -223,6 +223,13 @@ function initLightbox() {
       lightboxImg.src = '';
       lightboxIframe.style.display = 'block';
       lightboxIframe.src = current.src;
+      
+      // Only apply iPhone styling to Tlexplorer mobile preview
+      if (current.src && current.src.includes('tlexplorer')) {
+        lightboxIframe.classList.add('iphone-frame');
+      } else {
+        lightboxIframe.classList.remove('iphone-frame');
+      }
     } else {
       lightboxIframe.style.display = 'none';
       lightboxIframe.src = '';

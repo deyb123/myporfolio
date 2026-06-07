@@ -2173,6 +2173,16 @@ footer::before {
   pointer-events: none;
 }
 
+/* --- IPHONE MODIFIER FOR LIGHTBOX IFRAME --- */
+.iphone-frame {
+  max-width: 375px !important;
+  max-height: 812px !important;
+  border: 16px solid #111 !important;
+  border-radius: 40px !important;
+  background: #fff !important;
+  box-shadow: 0 0 0 2px #333, 0 20px 50px rgba(0,0,0,0.6) !important;
+}
+
 /* ====================================================
    SCROLL TO TOP BUTTON
    ==================================================== */
