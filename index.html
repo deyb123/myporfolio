@@ -241,11 +241,25 @@
       <h2 class="section-title reveal">My Latest Projects</h2>
       <p class="section-sub reveal">A curated collection of my academic journey, software applications, and design prototypes at DNSC. Click on any project card to explore interactive previews, live sites, and detailed views.</p>
 
-      <div class="project-filters reveal">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="videos">Videos</button>
-        <button class="filter-btn" data-filter="images">Images</button>
-        <button class="filter-btn" data-filter="apps">Apps & Websites</button>
+      <div class="projects-toolbar reveal">
+        <div class="project-filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="videos">Videos</button>
+          <button class="filter-btn" data-filter="images">Images</button>
+          <button class="filter-btn" data-filter="apps">Apps & Websites</button>
+        </div>
+
+        <div class="layout-toggle-group">
+          <button class="layout-btn active" data-layout="carousel" aria-label="3D Carousel View">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+          </button>
+          <button class="layout-btn" data-layout="grid" aria-label="Grid View">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          </button>
+          <button class="layout-btn" data-layout="list" aria-label="List View">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          </button>
+        </div>
       </div>
 
       <div class="subj-projects" style="margin-top: 3rem;">
@@ -492,85 +506,130 @@
   <!-- CONTACT SECTION -->
   <section id="contact">
     <div class="wrap">
-      <p class="section-label">Contact</p>
+      <p class="section-label reveal">Contact</p>
       <h2 class="section-title reveal">Get in Touch</h2>
       <p class="section-sub reveal">Open to academic collaboration, course-related discussions, or just a friendly hello.</p>
 
       <div class="contact-grid reveal">
-        <div class="contact-links">
-          <a href="mailto:tupas.dave@dnsc.edu.ph" class="contact-link">
-            <div class="cl-icon">✉</div>
-            <div>
-              <p class="cl-name">Email</p>
-              <p class="cl-val">tupas.dave@dnsc.edu.ph</p>
+        <!-- Modern Contact Grid -->
+        <div class="contact-links-grid">
+          <a href="mailto:tupas.dave@dnsc.edu.ph" class="contact-card-modern">
+            <div class="ccm-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </div>
+            <div class="ccm-content">
+              <p class="ccm-name">Email Me</p>
+              <p class="ccm-val">tupas.dave@dnsc.edu.ph</p>
+              <span class="ccm-action">Send message ↗</span>
             </div>
           </a>
-          <a href="https://www.instagram.com/deyb_vy/" class="contact-link" target="_blank" rel="noopener noreferrer">
-            <div class="cl-icon">📷</div>
-            <div>
-              <p class="cl-name">Instagram</p>
-              <p class="cl-val">@deyb_vy</p>
+
+          <a href="https://www.instagram.com/deyb_vy/" class="contact-card-modern" target="_blank" rel="noopener noreferrer">
+            <div class="ccm-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </div>
+            <div class="ccm-content">
+              <p class="ccm-name">Instagram</p>
+              <p class="ccm-val">@deyb_vy</p>
+              <span class="ccm-action">Follow profile ↗</span>
             </div>
           </a>
-          <a href="https://www.facebook.com/deyb.deyb.562" class="contact-link" target="_blank"
-            rel="noopener noreferrer">
-            <div class="cl-icon">👤</div>
-            <div>
-              <p class="cl-name">Facebook</p>
-              <p class="cl-val">Dave Tupas</p>
+
+          <a href="https://www.facebook.com/deyb.deyb.562" class="contact-card-modern" target="_blank" rel="noopener noreferrer">
+            <div class="ccm-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            </div>
+            <div class="ccm-content">
+              <p class="ccm-name">Facebook</p>
+              <p class="ccm-val">Dave Tupas</p>
+              <span class="ccm-action">Connect here ↗</span>
             </div>
           </a>
-          <a href="https://twitter.com/Devy_yb" class="contact-link" target="_blank" rel="noopener noreferrer">
-            <div class="cl-icon">𝕏</div>
-            <div>
-              <p class="cl-name">Twitter / X</p>
-              <p class="cl-val">@Devy_yb</p>
+
+          <a href="https://twitter.com/Devy_yb" class="contact-card-modern" target="_blank" rel="noopener noreferrer">
+            <div class="ccm-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+            </div>
+            <div class="ccm-content">
+              <p class="ccm-name">Twitter / X</p>
+              <p class="ccm-val">@Devy_yb</p>
+              <span class="ccm-action">Check tweets ↗</span>
             </div>
           </a>
         </div>
 
-        <div class="contact-quote">
-          <p class="cq-text">"Sometimes the only way to ever find yourself is to get completely lost."</p>
-          <p class="cq-author">— Dave Tupas · Personal Homepage Quote</p>
-
-          <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border)">
-            <p class="cq-author" style="margin-bottom:.75rem;">Source Sites</p>
-            <div class="sources" style="margin-top:0">
-              <a href="https://sites.google.com/dnsc.edu.ph/dave-tupas/home" class="source-chip" target="_blank"
-                rel="noopener noreferrer">Personal Site ↗</a>
-              <a href="https://sites.google.com/dnsc.edu.ph/2024-online-portfolio-tupas/home" class="source-chip"
-                target="_blank" rel="noopener noreferrer">Academic Portfolio ↗</a>
+        <!-- Quote / Highlights Column -->
+        <div class="contact-featured-card">
+          <div class="cfc-glow"></div>
+          <span class="cfc-badge">Personal Motto</span>
+          <p class="cfc-text">"Sometimes the only way to ever find yourself is to get completely lost."</p>
+          <div class="cfc-author">
+            <div class="cfc-avatar">DT</div>
+            <div>
+              <p class="cfc-author-name">Dave Tupas</p>
+              <p class="cfc-author-title">BSIS Student @ DNSC</p>
+            </div>
+          </div>
+          
+          <div class="cfc-divider"></div>
+          
+          <div class="cfc-sources">
+            <p class="cfc-sources-title">Quick Portals</p>
+            <div class="cfc-sources-chips">
+              <a href="https://sites.google.com/dnsc.edu.ph/dave-tupas/home" target="_blank" rel="noopener noreferrer" class="cfc-chip">
+                <span>Personal Site</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </a>
+              <a href="https://sites.google.com/dnsc.edu.ph/2024-online-portfolio-tupas/home" target="_blank" rel="noopener noreferrer" class="cfc-chip">
+                <span>Academic Site</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </a>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Embedded Maps, Calendars, Forms -->
+      <!-- Interactive Widgets Container -->
       <div class="contact-widgets-container reveal">
-        <!-- Interactive Google Map -->
-        <div class="contact-widget-card">
-          <h3><span class="widget-icon">📍</span> My Location — Lasang, Davao del Sur</h3>
-          <div class="iframe-wrapper">
+        <!-- Interactive Location Card -->
+        <div class="widget-window-card">
+          <div class="wwc-header">
+            <div class="wwc-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="wwc-title">Location — Lasang, Davao del Sur</div>
+          </div>
+          <div class="wwc-body">
             <iframe class="map-iframe"
               src="https://maps-api-ssl.google.com/maps?hl=en-US&amp;ll=7.254168,125.67337&amp;output=embed&amp;q=7.254297,125.673626+(Untitled+Location)&amp;z=17"
               allowfullscreen="" loading="lazy"></iframe>
           </div>
         </div>
 
-        <!-- Google Calendar -->
-        <div class="contact-widget-card">
-          <h3><span class="widget-icon">📅</span> Temporary Schedule</h3>
-          <div class="iframe-wrapper">
+        <!-- Google Calendar Schedule Card -->
+        <div class="widget-window-card">
+          <div class="wwc-header">
+            <div class="wwc-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="wwc-title">Weekly Planner</div>
+          </div>
+          <div class="wwc-body">
             <iframe
               src="https://www.google.com/calendar/embed?color=%239fe1e7&amp;embed_style=WyJhdDplbWI6c3QiLCIjZTBlMGUwIiwiI2VkZWRlZCIsIiM0MTg0ZjMiLCJyb2JvdG8iLCIjNjM2MzYzIiw1MDAsIiNmZmYiXQo&amp;eopt=2&amp;mode=month&amp;showCalendars=1&amp;showPrint=0&amp;showTz=1&amp;src=tupas.dave@dnsc.edu.ph"
               loading="lazy"></iframe>
           </div>
         </div>
 
-        <!-- Google Form Survey -->
-        <div class="contact-widget-card">
-          <h3><span class="widget-icon">📋</span> Survey Form</h3>
-          <div class="iframe-wrapper">
+        <!-- Google Survey Card -->
+        <div class="widget-window-card">
+          <div class="wwc-header">
+            <div class="wwc-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="wwc-title">Survey Form</div>
+          </div>
+          <div class="wwc-body">
             <iframe
               src="https://docs.google.com/forms/d/e/1FAIpQLSegkyB6Y8G7Dvb6qP92OjpTM6ENCtLEbiyJ4X-6x1DJ0_njFg/viewform?embedded=true"
               loading="lazy"></iframe>
@@ -581,12 +640,51 @@
   </section>
 
   <!-- FOOTER -->
-  <footer>
-    <p class="foot-left">© 2025 <strong>Dave Tupas</strong> · BS Information Systems · Davao del Norte State College</p>
-    <div class="foot-right">
-      <a href="#background">Achievements</a>
-      <a href="#journey">Journey</a>
-      <a href="#contact">Contact</a>
+  <footer class="modern-footer">
+    <div class="footer-glow"></div>
+    <div class="footer-wrap">
+      <div class="footer-top-grid">
+        <!-- Column 1: Brand -->
+        <div class="foot-col-brand">
+          <a href="#" class="foot-logo">
+            <span class="foot-logo-symbol">DT</span>
+            <span class="foot-logo-text">Dave Tupas</span>
+          </a>
+          <p class="foot-brand-desc">BS Information Systems student at Davao del Norte State College. Passionate about software architecture, clean layouts, and responsive designs.</p>
+          <div class="foot-socials">
+            <a href="mailto:tupas.dave@dnsc.edu.ph" aria-label="Email"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a>
+            <a href="https://www.facebook.com/deyb.deyb.562" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+            <a href="https://www.instagram.com/deyb_vy/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+            <a href="https://twitter.com/Devy_yb" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+          </div>
+        </div>
+
+        <!-- Column 2: Navigation -->
+        <div class="foot-col">
+          <h4 class="foot-col-title">Navigation</h4>
+          <ul class="foot-links">
+            <li><a href="#services">Academic Focus</a></li>
+            <li><a href="#about-me">Timeline & Skills</a></li>
+            <li><a href="#hobbies">Hobbies</a></li>
+            <li><a href="#journey">Portfolio Gallery</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Portals -->
+        <div class="foot-col">
+          <h4 class="foot-col-title">Portals & Sites</h4>
+          <ul class="foot-links">
+            <li><a href="https://sites.google.com/dnsc.edu.ph/dave-tupas/home" target="_blank" rel="noopener noreferrer">Google Site ↗</a></li>
+            <li><a href="https://sites.google.com/dnsc.edu.ph/2024-online-portfolio-tupas/home" target="_blank" rel="noopener noreferrer">Academic Portfolio ↗</a></li>
+            <li><a href="https://github.com/deyb123/myporfolio" target="_blank" rel="noopener noreferrer">Github Repository ↗</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="foot-copyright">© 2025 <strong>Dave Tupas</strong>. All Rights Reserved.</p>
+        <p class="foot-credits">DNSC BS Information Systems · Developed with ✨</p>
+      </div>
     </div>
   </footer>
 

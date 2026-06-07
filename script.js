@@ -652,6 +652,25 @@ function initCoverflowCarousels() {
     });
   }
 
+  // ---- Initialize Layout Toggles ----
+  const layoutBtns = document.querySelectorAll('.layout-btn');
+  const projectsContainerForLayout = document.querySelector('#journey .subj-projects');
+  if (projectsContainerForLayout) {
+    projectsContainerForLayout.classList.add('view-carousel');
+  }
+  if (layoutBtns.length > 0 && projectsContainerForLayout) {
+    layoutBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        layoutBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const layout = btn.dataset.layout;
+        projectsContainerForLayout.classList.remove('view-carousel', 'view-grid', 'view-list');
+        projectsContainerForLayout.classList.add('view-' + layout);
+      });
+    });
+  }
+
   // Re-init carousels when a year tab is clicked (panels show/hide)
   document.querySelectorAll('.ytab').forEach(tab => {
     tab.addEventListener('click', () => {
