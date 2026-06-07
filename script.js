@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Video Playback Controls
   initVideoPlaybackControls();
+
+  // Scroll to Top
+  initScrollTopBtn();
 });
 
 /* --- Mobile Navigation Hamburger Menu --- */
@@ -825,5 +828,40 @@ function initVideoPlaybackControls() {
         }
       }
     }
+  });
+}
+
+/* --- Scroll to Top Button --- */
+function initScrollTopBtn() {
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
+  if (!scrollTopBtn) return;
+
+  // Add hover target for custom cursor
+  scrollTopBtn.addEventListener('mouseenter', () => {
+    const cursor = document.getElementById('customCursor');
+    const cursorDot = document.getElementById('customCursorDot');
+    if (cursor) cursor.classList.add('cursor-hover');
+    if (cursorDot) cursorDot.classList.add('cursor-hover');
+  });
+  scrollTopBtn.addEventListener('mouseleave', () => {
+    const cursor = document.getElementById('customCursor');
+    const cursorDot = document.getElementById('customCursorDot');
+    if (cursor) cursor.classList.remove('cursor-hover');
+    if (cursorDot) cursorDot.classList.remove('cursor-hover');
+  });
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      scrollTopBtn.classList.add('show');
+    } else {
+      scrollTopBtn.classList.remove('show');
+    }
+  });
+
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   });
 }
