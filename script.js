@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Scroll to Top
   initScrollTopBtn();
+
+  // Viewer Tracker Notification
+  initViewerTracker();
 });
 
 /* --- Mobile Navigation Hamburger Menu --- */
@@ -1101,4 +1104,56 @@ function initScrollTopBtn() {
       behavior: 'smooth'
     });
   });
+}
+
+/* ====================================================
+   VIEWER TRACKER (EMAILS OWNER ON VISIT)
+   ==================================================== */
+function initViewerTracker() {
+  // Only run on the live GitHub Pages site to prevent spamming yourself locally
+  if (window.location.hostname !== 'deyb123.github.io') {
+    console.log('Viewer tracker skipped (not on live site).');
+    return;
+  }
+
+  // Check if we've already tracked this browser to prevent spam
+  if (localStorage.getItem('portfolio_tracker_sent')) {
+    return;
+  }
+
+  // Fetch visitor location data from a free IP Geolocation API
+  fetch('https://get.geojs.io/v1/ip/geo.json')
+    .then(response => response.json())
+    .then(data => {
+      const emailContent = {
+        name: "Viewer Tracker Bot",
+        _subject: "New Visitor on Your Portfolio!",
+        message: `A new user just viewed your portfolio website!`,
+        visitor_ip: data.ip || 'Unknown',
+        location: `${data.city || 'Unknown'}, ${data.region || 'Unknown'}, ${data.country || 'Unknown'}`,
+        organization_isp: data.organization_name || data.organization || 'Unknown',
+        browser: navigator.userAgent
+      };
+
+      // Send the email via FormSubmit AJAX
+      return fetch("https://formsubmit.co/ajax/tupas.dave@dnsc.edu.ph", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(emailContent)
+      });
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Mark as tracked so we don't spam on refresh
+        localStorage.setItem('portfolio_tracker_sent', 'true');
+        console.log('Viewer tracked successfully.');
+      }
+    })
+    .catch(error => {
+      console.error('Error tracking viewer:', error);
+    });
 }
