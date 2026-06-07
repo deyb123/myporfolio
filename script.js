@@ -647,83 +647,140 @@ function initStatsCounter() {
    ==================================================== */
 
 function initCoverflowCarousels() {
-  const containers = document.querySelectorAll('.subj-projects');
+  const projectsContainer = document.querySelector('#journey .subj-projects');
+  if (!projectsContainer) return;
 
-  containers.forEach(container => {
-    buildCarousel(container);
+  // Store the master list of all project cards (original DOM order)
+  const allCards = Array.from(projectsContainer.querySelectorAll('.proj-card'));
+
+  let currentLayout = 'carousel';
+  let currentFilter = 'all';
+
+  /* ---- Helpers ---- */
+
+  // Reset all inline carousel styles on a card
+  function resetCard(card) {
+    card.style.transform    = '';
+    card.style.opacity      = '';
+    card.style.zIndex       = '';
+    card.style.visibility   = '';
+    card.style.pointerEvents = '';
+    card.style.filter       = '';
+    card.style.position     = '';
+    card.style.left         = '';
+    card.style.width        = '';
+    card.style.margin       = '';
+    card.style.display      = '';
+    card.classList.remove('coverflow-active');
+  }
+
+  // Remove the carousel DOM (track, controls, title) and return cards to container
+  function teardownCarousel() {
+    const track       = projectsContainer.querySelector('.coverflow-track');
+    const controls    = projectsContainer.querySelector('.carousel-controls');
+    const activeTitle = projectsContainer.querySelector('.carousel-active-title');
+
+    if (track) {
+      // Move cards back to container before removing track
+      Array.from(track.querySelectorAll('.proj-card')).forEach(card => {
+        resetCard(card);
+        projectsContainer.appendChild(card);
+      });
+      track.remove();
+    }
+    if (controls)    controls.remove();
+    if (activeTitle) activeTitle.remove();
+  }
+
+  // Show/hide cards in grid or list view based on current filter
+  function applyFilterToFlatCards() {
+    Array.from(projectsContainer.querySelectorAll('.proj-card')).forEach(card => {
+      const match = currentFilter === 'all' || card.dataset.category === currentFilter;
+      card.style.display = match ? '' : 'none';
+    });
+  }
+
+  // Get filtered cards (in original order) ready for carousel rebuild
+  function getFilteredCards() {
+    return allCards.filter(card =>
+      currentFilter === 'all' || card.dataset.category === currentFilter
+    );
+  }
+
+  // Rebuild carousel with only filtered cards
+  function rebuildCarousel() {
+    teardownCarousel();
+    // Put only matching cards back in container, hide the rest
+    allCards.forEach(card => {
+      resetCard(card);
+      const match = currentFilter === 'all' || card.dataset.category === currentFilter;
+      if (match) {
+        projectsContainer.appendChild(card);
+      }
+      // Non-matching cards are simply not in the DOM during carousel mode
+    });
+    buildCarousel(projectsContainer);
+  }
+
+  /* ---- Initial build ---- */
+  projectsContainer.classList.add('view-carousel');
+  buildCarousel(projectsContainer);
+
+  /* ---- Layout Toggle ---- */
+  const layoutBtns = document.querySelectorAll('.layout-btn');
+  layoutBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const newLayout = btn.dataset.layout;
+      if (newLayout === currentLayout) return;
+
+      layoutBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      projectsContainer.classList.remove('view-carousel', 'view-grid', 'view-list');
+      projectsContainer.classList.add('view-' + newLayout);
+      currentLayout = newLayout;
+
+      if (newLayout === 'carousel') {
+        // Rebuild carousel (with current filter)
+        rebuildCarousel();
+      } else {
+        // Destroy carousel and expose flat cards
+        teardownCarousel();
+        // Ensure all cards are in container (non-matching ones from carousel mode may be absent)
+        allCards.forEach(card => {
+          resetCard(card);
+          projectsContainer.appendChild(card);
+        });
+        applyFilterToFlatCards();
+      }
+    });
   });
 
-  // ---- Initialize Project Filters ----
+  /* ---- Filter Buttons ---- */
   const filterBtns = document.querySelectorAll('.filter-btn');
-  // Assuming the main projects section has the filters
-  const projectsContainer = document.querySelector('#journey .subj-projects');
-  
-  if (filterBtns.length > 0 && projectsContainer) {
-    // Store original cards globally for this container
-    const allCardsOriginal = Array.from(projectsContainer.querySelectorAll('.proj-card'));
-    
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Update active class
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        const filter = btn.dataset.filter;
-        
-        // Clear container completely
-        projectsContainer.innerHTML = '';
-        
-        // Re-append matching cards
-        allCardsOriginal.forEach(card => {
-          // Reset inline styles applied by carousel
-          card.style.transform = '';
-          card.style.opacity = '';
-          card.style.zIndex = '';
-          card.style.visibility = '';
-          card.style.pointerEvents = '';
-          card.style.filter = '';
-          card.classList.remove('coverflow-active');
-          card.classList.remove('hidden-card');
-          
-          if (filter === 'all' || card.dataset.category === filter) {
-            projectsContainer.appendChild(card);
-          }
-        });
-        
-        // Re-initialize carousel
-        buildCarousel(projectsContainer);
-      });
-    });
-  }
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
 
-  // ---- Initialize Layout Toggles ----
-  const layoutBtns = document.querySelectorAll('.layout-btn');
-  const projectsContainerForLayout = document.querySelector('#journey .subj-projects');
-  if (projectsContainerForLayout) {
-    projectsContainerForLayout.classList.add('view-carousel');
-  }
-  if (layoutBtns.length > 0 && projectsContainerForLayout) {
-    layoutBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        layoutBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        const layout = btn.dataset.layout;
-        projectsContainerForLayout.classList.remove('view-carousel', 'view-grid', 'view-list');
-        projectsContainerForLayout.classList.add('view-' + layout);
-      });
+      if (currentLayout === 'carousel') {
+        // Rebuild carousel with filtered set
+        rebuildCarousel();
+      } else {
+        // Just show/hide cards in place
+        applyFilterToFlatCards();
+      }
     });
-  }
+  });
 
   // Re-init carousels when a year tab is clicked (panels show/hide)
   document.querySelectorAll('.ytab').forEach(tab => {
     tab.addEventListener('click', () => {
-      // Small delay to let the panel become visible
       setTimeout(() => {
         const year = tab.dataset.y;
         const panel = document.getElementById('yp' + year);
         if (!panel) return;
-        // Only build if not already initialized
         panel.querySelectorAll('.subj-projects').forEach(c => {
           if (!c.querySelector('.coverflow-track')) buildCarousel(c);
         });
