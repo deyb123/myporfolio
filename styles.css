@@ -567,20 +567,20 @@ nav {
   gap: 0.6rem;
   background: var(--cyan);
   color: #070913;
-  padding: 0.85rem 2.2rem;
+  padding: 1rem 2.5rem;
   border-radius: 100px;
   font-family: 'Outfit', sans-serif;
-  font-size: 0.92rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 700;
   text-decoration: none;
   transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 240, 255, 0.25);
 }
 
 .btn-primary:hover {
   background: var(--cyan-light);
   transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(0, 240, 255, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 240, 255, 0.4);
 }
 
 .btn-ghost {
