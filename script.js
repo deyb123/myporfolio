@@ -719,8 +719,9 @@ function initCoverflowCarousels() {
       const match = currentFilter === 'all' || card.dataset.category === currentFilter;
       if (match) {
         projectsContainer.appendChild(card);
+      } else {
+        card.remove(); // Explicitly remove non-matching cards from the DOM
       }
-      // Non-matching cards are simply not in the DOM during carousel mode
     });
     buildCarousel(projectsContainer);
   }
