@@ -4,6 +4,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
+  initNavScroll();
   initTimelineTabs();
   initScrollspy();
   initIntersectionObserver();
@@ -33,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function initMobileNav() {
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
-  const links = document.querySelectorAll('.nav-links a');
+  const links = document.querySelectorAll('.nav-link');
 
   if (!navToggle || !navLinks) return;
 
@@ -50,6 +51,23 @@ function initMobileNav() {
       document.body.style.overflow = '';
     });
   });
+}
+
+/* --- Navbar Scroll State (adds frosted bg when scrolled) --- */
+function initNavScroll() {
+  const nav = document.getElementById('navbar');
+  if (!nav) return;
+
+  const toggle = () => {
+    if (window.scrollY > 20) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  };
+
+  window.addEventListener('scroll', toggle, { passive: true });
+  toggle(); // Run on load
 }
 
 /* --- Tab Switcher for Academic Journey --- */
@@ -82,7 +100,7 @@ function initTimelineTabs() {
 /* --- Scrollspy: Track Active Menu Links --- */
 function initScrollspy() {
   const sections = ['services', 'about-me', 'hobbies', 'journey', 'contact'];
-  const navLinks = document.querySelectorAll('.nav-links a');
+  const navLinks = document.querySelectorAll('.nav-link');
   
   const spyObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {

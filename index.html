@@ -34,21 +34,49 @@
 
   <!-- NAVIGATION -->
   <nav id="navbar">
-    <a href="#hero" class="nav-logo">My <em>Portfolio</em></a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#services">Services</a></li>
-      <li><a href="#about-me">About Me</a></li>
-      <li><a href="#hobbies">Hobbies</a></li>
-      <li><a href="#journey">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme color" title="Toggle cyber amber theme">
-      <span class="theme-icon">⚡</span>
-    </button>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
-      <span class="hamburger"></span>
-    </button>
-    <a href="mailto:tupas.dave@dnsc.edu.ph" class="nav-cta">Contact</a>
+    <div class="nav-inner">
+      <!-- Logo -->
+      <a href="#hero" class="nav-logo" aria-label="Dave Tupas Portfolio">
+        <span class="nav-logo-text">DT<span class="nav-logo-dot">.</span></span>
+        <span class="nav-logo-tag">Portfolio</span>
+      </a>
+
+      <!-- Center Links -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#services" class="nav-link">Services</a></li>
+        <li><a href="#about-me" class="nav-link">About</a></li>
+        <li><a href="#hobbies" class="nav-link">Hobbies</a></li>
+        <li><a href="#journey" class="nav-link">Projects</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <!-- Right Controls -->
+      <div class="nav-controls">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme color" title="Toggle cyber amber theme">
+          <!-- Sun icon (default) -->
+          <svg class="theme-icon theme-icon--sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <!-- Moon icon (amber) -->
+          <svg class="theme-icon theme-icon--moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <a href="mailto:tupas.dave@dnsc.edu.ph" class="nav-cta">
+          Let's Talk
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69L5.22 13.72a.75.75 0 0 0 0 1.06z" clip-rule="evenodd"/></svg>
+        </a>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+          <span class="hamburger"></span>
+        </button>
+      </div>
+    </div>
   </nav>
 
   <!-- HERO SECTION -->
@@ -682,9 +710,6 @@
           <span class="ag-copyright">© 2025 Dave Tupas. All rights reserved.</span>
           <span class="ag-separator">//</span>
           <span class="ag-degree">DNSC BSIS</span>
-        </div>
-        <div class="ag-bottom-right">
-          <span class="ag-credits">BUILT BY ANTIGRAVITY AGENT</span>
         </div>
       </div>
     </div>
