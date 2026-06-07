@@ -2173,14 +2173,96 @@ footer::before {
   pointer-events: none;
 }
 
-/* --- IPHONE MODIFIER FOR LIGHTBOX IFRAME --- */
-.iphone-frame {
+/* --- LIGHTBOX IFRAME WRAPPER --- */
+.lightbox-iframe-wrapper {
+  display: none;
+  width: 100%;
+  max-width: 800px;
+  height: 80vh;
+  margin: auto;
+  border-radius: 12px;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.lightbox-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: inherit;
+  display: block;
+}
+
+/* --- IPHONE 14 PRO MOCKUP (Dynamic) --- */
+.iphone-mockup {
   max-width: 375px !important;
-  max-height: 812px !important;
-  border: 16px solid #111 !important;
-  border-radius: 40px !important;
-  background: #fff !important;
-  box-shadow: 0 0 0 2px #333, 0 20px 50px rgba(0,0,0,0.6) !important;
+  height: 812px !important;
+  max-height: 85vh;
+  border-radius: 45px;
+  border: 12px solid #0f0f0f;
+  box-shadow: 
+    0 0 0 2px #4b4b4b,  /* Metallic rim inner */
+    0 0 0 4px #b8b8b8,  /* Metallic rim outer */
+    0 25px 60px rgba(0,0,0,0.8); /* Drop shadow */
+  background: #000;
+  padding: 0;
+  box-sizing: content-box;
+}
+
+.iphone-mockup .lightbox-iframe {
+  border-radius: 33px; /* inner screen radius */
+}
+
+/* Side Buttons */
+.iphone-mockup::before {
+  content: '';
+  position: absolute;
+  top: 130px;
+  left: -16px;
+  width: 4px;
+  height: 30px;
+  background: #b8b8b8;
+  border-radius: 4px 0 0 4px;
+  box-shadow: 
+    0 50px 0 #b8b8b8, 
+    0 110px 0 #b8b8b8;
+}
+.iphone-mockup::after {
+  content: '';
+  position: absolute;
+  top: 150px;
+  right: -16px;
+  width: 4px;
+  height: 90px;
+  background: #b8b8b8;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Dynamic Island */
+.iphone-notch {
+  display: none;
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 35px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 10;
+}
+
+.iphone-notch::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  background: #111;
+  border-radius: 50%;
+  box-shadow: inset -2px -2px 4px rgba(255,255,255,0.1), inset 2px 2px 4px rgba(0,0,0,0.8);
 }
 
 /* ====================================================

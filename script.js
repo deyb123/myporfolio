@@ -218,20 +218,25 @@ function initLightbox() {
     
     const lightboxIframe = document.getElementById('lightboxIframe');
     
+    const lightboxIframeWrapper = document.getElementById('lightboxIframeWrapper');
+    const iphoneNotch = document.getElementById('iphoneNotch');
+    
     if (current.type === 'iframe') {
       lightboxImg.style.display = 'none';
       lightboxImg.src = '';
-      lightboxIframe.style.display = 'block';
+      lightboxIframeWrapper.style.display = 'block';
       lightboxIframe.src = current.src;
       
       // Only apply iPhone styling to Tlexplorer mobile preview
       if (current.src && current.src.includes('tlexplorer')) {
-        lightboxIframe.classList.add('iphone-frame');
+        lightboxIframeWrapper.classList.add('iphone-mockup');
+        iphoneNotch.style.display = 'block';
       } else {
-        lightboxIframe.classList.remove('iphone-frame');
+        lightboxIframeWrapper.classList.remove('iphone-mockup');
+        iphoneNotch.style.display = 'none';
       }
     } else {
-      lightboxIframe.style.display = 'none';
+      lightboxIframeWrapper.style.display = 'none';
       lightboxIframe.src = '';
       lightboxImg.style.display = 'block';
       lightboxImg.src = current.src;

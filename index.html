@@ -448,7 +448,10 @@
     <button class="lightbox-btn lightbox-prev" id="lightboxPrev" aria-label="Previous image">&#10094;</button>
     <div class="lightbox-content">
       <img src="" alt="" class="lightbox-img" id="lightboxImg">
-      <iframe src="" class="lightbox-iframe" id="lightboxIframe" style="display:none; border:none; width:100%; max-width:800px; height:80vh; border-radius:12px; margin:auto;" allowfullscreen></iframe>
+      <div id="lightboxIframeWrapper" class="lightbox-iframe-wrapper">
+        <div class="iphone-notch" id="iphoneNotch"></div>
+        <iframe src="" class="lightbox-iframe" id="lightboxIframe" allowfullscreen></iframe>
+      </div>
       <p class="lightbox-caption" id="lightboxCaption"></p>
     </div>
     <button class="lightbox-btn lightbox-next" id="lightboxNext" aria-label="Next image">&#10095;</button>
