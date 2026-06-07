@@ -431,6 +431,19 @@ function initCustomCursor() {
     cursor.style.opacity = '1';
     cursorDot.style.opacity = '1';
   });
+  
+  // Hide cursor over iframes to prevent it getting stuck
+  const iframes = document.querySelectorAll('iframe');
+  iframes.forEach(iframe => {
+    iframe.addEventListener('mouseenter', () => {
+      cursor.style.opacity = '0';
+      cursorDot.style.opacity = '0';
+    });
+    iframe.addEventListener('mouseleave', () => {
+      cursor.style.opacity = '1';
+      cursorDot.style.opacity = '1';
+    });
+  });
 }
 
 /* --- Cyber Theme Toggler (Cyan Cyber vs. Amber Grid) --- */
