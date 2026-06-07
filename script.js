@@ -558,7 +558,7 @@ function initCoverflowCarousels() {
   // ---- Initialize Project Filters ----
   const filterBtns = document.querySelectorAll('.filter-btn');
   // Assuming the main projects section has the filters
-  const projectsContainer = document.querySelector('#projects .subj-projects');
+  const projectsContainer = document.querySelector('#journey .subj-projects');
   
   if (filterBtns.length > 0 && projectsContainer) {
     // Store original cards globally for this container
