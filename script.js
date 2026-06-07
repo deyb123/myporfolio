@@ -725,10 +725,10 @@ function initCoverflowCarousels() {
     buildCarousel(projectsContainer);
   }
 
-  /* ---- Initial build: default to grid view ---- */
-  projectsContainer.classList.add('view-grid');
-  currentLayout = 'grid';
-  // Cards are already directly in the container — no carousel build needed
+  /* ---- Initial build: default to carousel view ---- */
+  projectsContainer.classList.add('view-carousel');
+  currentLayout = 'carousel';
+  buildCarousel(projectsContainer);
 
   /* ---- Layout Toggle ---- */
   const layoutBtns = document.querySelectorAll('.layout-btn');
