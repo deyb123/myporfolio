@@ -635,7 +635,8 @@ function buildCarousel(container) {
     // Update active title text
     const activeCard = cards[activeIndex];
     const projTitle = activeCard.querySelector('.proj-title') ? activeCard.querySelector('.proj-title').textContent : `Item ${activeIndex + 1}`;
-    activeTitleWrap.innerHTML = `<h4>${projTitle}</h4>`;
+    const projDesc = activeCard.querySelector('.proj-desc') ? activeCard.querySelector('.proj-desc').textContent : ``;
+    activeTitleWrap.innerHTML = `<h4>${projTitle}</h4><p>${projDesc}</p>`;
     
     cards.forEach((card, i) => {
       if (i === activeIndex) {
