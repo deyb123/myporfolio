@@ -629,7 +629,7 @@ function buildCarousel(container) {
     const isMobile = window.innerWidth <= 640;
     
     // Flat Overlap parameters to match reference
-    const peek = isMobile ? 40 : 120; 
+    const peek = isMobile ? 50 : 160; 
     const scaleDrop = 0.15; 
     
     // Update active title text
@@ -649,7 +649,7 @@ function buildCarousel(container) {
         card.classList.add('coverflow-active');
       } else if (i < activeIndex) {
         const dist = activeIndex - i;
-        const xOffset = isMobile ? - (dist * 40 + 40) : - (dist * peek + 100);
+        const xOffset = isMobile ? - (dist * 40 + 60) : - (dist * peek + 180);
         const scale = 1 - (dist * scaleDrop);
         card.style.transform = `translate3d(${xOffset}px, 0, 0) scale(${scale})`;
         card.style.opacity = dist > 2 ? '0' : '1';
@@ -660,7 +660,7 @@ function buildCarousel(container) {
         card.classList.remove('coverflow-active');
       } else {
         const dist = i - activeIndex;
-        const xOffset = isMobile ? (dist * 40 + 40) : (dist * peek + 100);
+        const xOffset = isMobile ? (dist * 40 + 60) : (dist * peek + 180);
         const scale = 1 - (dist * scaleDrop);
         card.style.transform = `translate3d(${xOffset}px, 0, 0) scale(${scale})`;
         card.style.opacity = dist > 2 ? '0' : '1';
