@@ -582,19 +582,25 @@ function buildCarousel(container) {
   cards.forEach(card => track.appendChild(card));
   container.appendChild(track);
 
+  // ---- Dynamic Title Display ----
+  const activeTitleWrap = document.createElement('div');
+  activeTitleWrap.className = 'carousel-active-title';
+  container.appendChild(activeTitleWrap);
+
+  // ---- Controls Wrapper ----
+  const controlsWrap = document.createElement('div');
+  controlsWrap.className = 'carousel-controls';
+
   // ---- Prev / Next Buttons ----
   const prevBtn = document.createElement('button');
   prevBtn.className = 'carousel-btn carousel-btn-prev';
   prevBtn.setAttribute('aria-label', 'Previous project');
-  prevBtn.innerHTML = '&#8249;';
+  prevBtn.innerHTML = '&#8592;';
 
   const nextBtn = document.createElement('button');
   nextBtn.className = 'carousel-btn carousel-btn-next';
   nextBtn.setAttribute('aria-label', 'Next project');
-  nextBtn.innerHTML = '&#8250;';
-
-  container.appendChild(prevBtn);
-  container.appendChild(nextBtn);
+  nextBtn.innerHTML = '&#8594;';
 
   // ---- Dot Indicators ----
   const dotsWrap = document.createElement('div');
@@ -610,12 +616,11 @@ function buildCarousel(container) {
     dotsWrap.appendChild(dot);
     return dot;
   });
-  container.appendChild(dotsWrap);
 
-  // ---- Dynamic Title Display ----
-  const activeTitleWrap = document.createElement('div');
-  activeTitleWrap.className = 'carousel-active-title';
-  container.appendChild(activeTitleWrap);
+  controlsWrap.appendChild(prevBtn);
+  controlsWrap.appendChild(dotsWrap);
+  controlsWrap.appendChild(nextBtn);
+  container.appendChild(controlsWrap);
 
   let activeIndex = 0;
 
@@ -623,11 +628,9 @@ function buildCarousel(container) {
   function updateCoverflow() {
     const isMobile = window.innerWidth <= 640;
     
-    // Dramatic Coverflow parameters to match reference
-    const spacing = isMobile ? 45 : 80;
-    const baseOffset = isMobile ? 80 : 150;
-    const zSpacing = isMobile ? 120 : 200;
-    const maxRotation = isMobile ? 55 : 65;
+    // Flat Overlap parameters to match reference
+    const peek = isMobile ? 40 : 120; 
+    const scaleDrop = 0.15; 
     
     // Update active title text
     const activeCard = cards[activeIndex];
@@ -636,31 +639,34 @@ function buildCarousel(container) {
     
     cards.forEach((card, i) => {
       if (i === activeIndex) {
-        card.style.transform = 'translate3d(0, 0, 0) rotateY(0deg)';
+        card.style.transform = 'translate3d(0, 0, 0) scale(1)';
         card.style.opacity = '1';
         card.style.zIndex = '20';
         card.style.visibility = 'visible';
         card.style.pointerEvents = 'auto';
+        card.style.filter = 'brightness(1)';
         card.classList.add('coverflow-active');
       } else if (i < activeIndex) {
         const dist = activeIndex - i;
-        const xOffset = - (dist * spacing + baseOffset);
-        const zOffset = - dist * zSpacing;
-        card.style.transform = `translate3d(${xOffset}px, 0, ${zOffset}px) rotateY(${maxRotation}deg)`;
-        card.style.opacity = dist > 3 ? '0' : (dist === 1 ? '0.75' : '0.35');
+        const xOffset = isMobile ? - (dist * 40 + 40) : - (dist * peek + 100);
+        const scale = 1 - (dist * scaleDrop);
+        card.style.transform = `translate3d(${xOffset}px, 0, 0) scale(${scale})`;
+        card.style.opacity = dist > 2 ? '0' : '1';
         card.style.zIndex = (10 - dist).toString();
-        card.style.visibility = dist > 3 ? 'hidden' : 'visible';
-        card.style.pointerEvents = dist > 3 ? 'none' : 'auto';
+        card.style.visibility = dist > 2 ? 'hidden' : 'visible';
+        card.style.pointerEvents = dist > 2 ? 'none' : 'auto';
+        card.style.filter = `brightness(${1 - dist * 0.2})`;
         card.classList.remove('coverflow-active');
       } else {
         const dist = i - activeIndex;
-        const xOffset = dist * spacing + baseOffset;
-        const zOffset = - dist * zSpacing;
-        card.style.transform = `translate3d(${xOffset}px, 0, ${zOffset}px) rotateY(${-maxRotation}deg)`;
-        card.style.opacity = dist > 3 ? '0' : (dist === 1 ? '0.75' : '0.35');
+        const xOffset = isMobile ? (dist * 40 + 40) : (dist * peek + 100);
+        const scale = 1 - (dist * scaleDrop);
+        card.style.transform = `translate3d(${xOffset}px, 0, 0) scale(${scale})`;
+        card.style.opacity = dist > 2 ? '0' : '1';
         card.style.zIndex = (10 - dist).toString();
-        card.style.visibility = dist > 3 ? 'hidden' : 'visible';
-        card.style.pointerEvents = dist > 3 ? 'none' : 'auto';
+        card.style.visibility = dist > 2 ? 'hidden' : 'visible';
+        card.style.pointerEvents = dist > 2 ? 'none' : 'auto';
+        card.style.filter = `brightness(${1 - dist * 0.2})`;
         card.classList.remove('coverflow-active');
       }
     });
