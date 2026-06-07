@@ -53,21 +53,47 @@ function initMobileNav() {
   });
 }
 
-/* --- Navbar Scroll State (adds frosted bg when scrolled) --- */
+/* --- Navbar Scroll State: frosted glass + direction-aware collapse --- */
 function initNavScroll() {
   const nav = document.getElementById('navbar');
   if (!nav) return;
 
-  const toggle = () => {
-    if (window.scrollY > 20) {
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+
+  const update = () => {
+    const currentY = window.scrollY;
+    const scrollingDown = currentY > lastScrollY;
+
+    // Always apply frosted bg once past 20px
+    if (currentY > 20) {
       nav.classList.add('scrolled');
     } else {
       nav.classList.remove('scrolled');
+      nav.classList.remove('collapsed'); // at very top: always expand
     }
+
+    // Collapse when scrolling DOWN (and not at very top)
+    if (currentY > 80) {
+      if (scrollingDown) {
+        nav.classList.add('collapsed');
+      } else {
+        nav.classList.remove('collapsed');
+      }
+    }
+
+    lastScrollY = currentY <= 0 ? 0 : currentY;
+    ticking = false;
   };
 
-  window.addEventListener('scroll', toggle, { passive: true });
-  toggle(); // Run on load
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(update);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  update(); // Run on load
 }
 
 /* --- Tab Switcher for Academic Journey --- */
