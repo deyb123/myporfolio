@@ -14,7 +14,17 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
-  <base href="/myporfolio/assets/tlexplorer/">
+  <script>
+    (function() {
+      var base = document.createElement('base');
+      if (window.location.hostname === 'deyb123.github.io') {
+        base.href = '/myporfolio/assets/tlexplorer/';
+      } else {
+        base.href = './';
+      }
+      document.head.appendChild(base);
+    })();
+  </script>
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">

@@ -294,7 +294,7 @@
         <!-- Card 1: Video -->
         <div class="proj-card proj-card--link" data-category="videos" data-iframe="assets/loan_management.mp4">
           <div class="proj-img-wrapper" style="cursor: pointer;">
-            <div class="video-play-icon">
+            <div class="video-play-icon play-state">
               <svg width="36" height="36" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="6,3 20,12 6,21"></polygon></svg>
             </div>
             <video src="assets/loan_management.mp4" controls class="proj-img" style="object-fit: cover; border-radius: 12px;"></video>
@@ -308,7 +308,7 @@
         <!-- Card: Sa Akong Heart -->
         <div class="proj-card proj-card--link" data-category="videos" data-iframe="assets/sa_akong_heart.mp4">
           <div class="proj-img-wrapper" style="cursor: pointer;">
-            <div class="video-play-icon">
+            <div class="video-play-icon play-state">
               <svg width="36" height="36" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="6,3 20,12 6,21"></polygon></svg>
             </div>
             <video src="assets/sa_akong_heart.mp4" controls class="proj-img" style="object-fit: cover; border-radius: 12px; background: #000;"></video>
@@ -322,7 +322,7 @@
         <!-- Card: Conflict Theory -->
         <div class="proj-card proj-card--link" data-category="videos" data-iframe="assets/conflict_theory.mp4">
           <div class="proj-img-wrapper" style="cursor: pointer;">
-            <div class="video-play-icon">
+            <div class="video-play-icon play-state">
               <svg width="36" height="36" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="6,3 20,12 6,21"></polygon></svg>
             </div>
             <video src="assets/conflict_theory.mp4" controls class="proj-img" style="object-fit: cover; border-radius: 12px; background: #000;"></video>
@@ -336,7 +336,7 @@
         <!-- Card: Unofficial Trailer -->
         <div class="proj-card proj-card--link" data-category="videos" data-iframe="assets/trailer_unofficial.mp4">
           <div class="proj-img-wrapper" style="cursor: pointer;">
-            <div class="video-play-icon">
+            <div class="video-play-icon play-state">
               <svg width="36" height="36" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="6,3 20,12 6,21"></polygon></svg>
             </div>
             <video src="assets/trailer_unofficial.mp4" controls class="proj-img" style="object-fit: cover; border-radius: 12px; background: #000;"></video>
@@ -483,9 +483,9 @@
         <!-- Card 0: Tlexplorer App -->
         <div class="proj-card proj-card--link" data-category="apps" data-iframe="assets/tlexplorer/index.html">
           <div class="proj-img-wrapper" style="cursor: pointer;">
-            <div class="proj-link-badge">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              <span class="badge-text">Click to Preview</span>
+            <div class="app-preview-badge">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+              <span class="badge-text">Expand to Interact</span>
             </div>
             <img src="assets/tlexplorer/icons/Icon-512.png" alt="Tlexplorer App" class="proj-img" style="object-fit: contain; background: #1a1a1a; border-radius: 12px; height: 100%; width: 100%; padding: 2rem;">
             <div class="proj-info-overlay">
@@ -498,14 +498,14 @@
         <!-- Card 7: PayTrack Website -->
         <div class="proj-card proj-card--link" data-category="apps" data-iframe="https://paytrack.figma.site/">
           <div class="proj-img-wrapper">
+            <div class="app-preview-badge">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+              <span class="badge-text">Expand to Interact</span>
+            </div>
             <img src="assets/paytrack_live_site.png" alt="PayTrack Website" class="proj-img" style="object-fit: cover; object-position: top; background:#0d1a12; border-radius: 12px; height: 100%; width: 100%;">
             <div class="proj-info-overlay">
               <p class="proj-title">PayTrack — Live Site</p>
               <p class="proj-desc">Fully functional and responsive landing page.</p>
-            </div>
-            <div class="proj-link-badge">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              <span class="badge-text">Click to Preview</span>
             </div>
           </div>
         </div>
@@ -513,14 +513,14 @@
         <!-- Card 8: PayTrack Prototype -->
         <div class="proj-card proj-card--link" data-category="apps" data-iframe="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2F6Q07U9g0PxdLxXm4JFEQFQ%2FPaytrack-2.0%3Fnode-id%3D2-5%26p%3Df%26viewport%3D262%252C170%252C0.05%26t%3D25TsBVVeKj8IeVQl-1%26scaling%3Dscale-down%26content-scaling%3Dfixed%26starting-point-node-id%3D2%253A5%26page-id%3D2%253A3">
           <div class="proj-img-wrapper">
+            <div class="app-preview-badge">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+              <span class="badge-text">Expand to Interact</span>
+            </div>
             <img src="assets/paytrack_prototype.png" alt="PayTrack Prototype" class="proj-img" style="object-fit: cover; object-position: center; background:#000; border-radius: 12px; height: 100%; width: 100%;">
             <div class="proj-info-overlay">
               <p class="proj-title">PayTrack — Interactive Prototype</p>
               <p class="proj-desc">High-fidelity Figma UI/UX prototype.</p>
-            </div>
-            <div class="proj-link-badge">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              <span class="badge-text">Click to Preview</span>
             </div>
           </div>
         </div>
@@ -723,6 +723,11 @@
       <img src="" alt="" class="lightbox-img" id="lightboxImg">
       <div id="lightboxIframeWrapper" class="lightbox-iframe-wrapper">
         <div class="iphone-notch" id="iphoneNotch"></div>
+        <div id="lightboxLoader" class="lightbox-loader" style="display: none;">
+          <div class="loader-spinner"></div>
+          <p class="loader-text">Loading Interactive Preview...</p>
+          <p class="loader-subtext">This might take seconds or a minute, please wait...</p>
+        </div>
         <iframe src="" class="lightbox-iframe" id="lightboxIframe" allowfullscreen></iframe>
       </div>
       <p class="lightbox-caption" id="lightboxCaption"></p>

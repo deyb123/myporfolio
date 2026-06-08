@@ -272,6 +272,8 @@ function initLightbox() {
     const lbWrapper = document.getElementById('lightboxIframeWrapper');
     const existingVid = lbWrapper ? lbWrapper.querySelector('video.lightbox-video') : null;
     if (existingVid) existingVid.remove();
+    const lightboxLoader = document.getElementById('lightboxLoader');
+    if (lightboxLoader) lightboxLoader.style.display = 'none';
     lightbox.classList.remove('active');
     document.body.style.overflow = '';
   }
@@ -281,9 +283,16 @@ function initLightbox() {
     const current = galleryImages[currentIndex];
     
     const lightboxIframe = document.getElementById('lightboxIframe');
-    
     const lightboxIframeWrapper = document.getElementById('lightboxIframeWrapper');
     const iphoneNotch = document.getElementById('iphoneNotch');
+    const lightboxLoader = document.getElementById('lightboxLoader');
+
+    // Show loader and reset opacity of content elements for a clean fade-in
+    if (lightboxLoader) {
+      lightboxLoader.style.display = 'flex';
+    }
+    lightboxImg.style.opacity = '0';
+    lightboxIframe.style.opacity = '0';
     
     if (current.type === 'iframe') {
       lightboxImg.style.display = 'none';
@@ -293,6 +302,19 @@ function initLightbox() {
       if (existingVid) existingVid.remove();
       lightboxIframeWrapper.style.display = 'block';
       lightboxIframe.style.display = 'block';
+      
+      // Safety timeout: force reveal after 4 seconds if load fires late or gets blocked
+      const safetyTimeout = setTimeout(() => {
+        if (lightboxLoader) lightboxLoader.style.display = 'none';
+        lightboxIframe.style.opacity = '1';
+      }, 4000);
+
+      lightboxIframe.onload = () => {
+        clearTimeout(safetyTimeout);
+        if (lightboxLoader) lightboxLoader.style.display = 'none';
+        lightboxIframe.style.opacity = '1';
+        lightboxIframe.style.transition = 'opacity 0.3s ease';
+      };
       lightboxIframe.src = current.src;
       
       // Only apply iPhone styling to Tlexplorer mobile preview
@@ -319,7 +341,23 @@ function initLightbox() {
       vid.controls = true;
       vid.autoplay = true;
       vid.className = 'lightbox-video';
-      vid.style.cssText = 'width:100%;height:100%;border-radius:12px;background:#000;';
+      vid.style.cssText = 'width:100%;height:100%;border-radius:12px;background:#000;opacity:0;';
+      
+      const safetyTimeout = setTimeout(() => {
+        if (lightboxLoader) lightboxLoader.style.display = 'none';
+        vid.style.opacity = '1';
+      }, 4000);
+
+      const revealVideo = () => {
+        clearTimeout(safetyTimeout);
+        if (lightboxLoader) lightboxLoader.style.display = 'none';
+        vid.style.opacity = '1';
+        vid.style.transition = 'opacity 0.3s ease';
+      };
+
+      vid.addEventListener('loadeddata', revealVideo);
+      vid.addEventListener('canplay', revealVideo);
+      
       lightboxIframeWrapper.style.display = 'block';
       lightboxIframeWrapper.appendChild(vid);
     } else {
@@ -329,6 +367,18 @@ function initLightbox() {
       const existingVid = lightboxIframeWrapper.querySelector('video.lightbox-video');
       if (existingVid) existingVid.remove();
       lightboxImg.style.display = 'block';
+      
+      const safetyTimeout = setTimeout(() => {
+        if (lightboxLoader) lightboxLoader.style.display = 'none';
+        lightboxImg.style.opacity = '1';
+      }, 4000);
+
+      lightboxImg.onload = () => {
+        clearTimeout(safetyTimeout);
+        if (lightboxLoader) lightboxLoader.style.display = 'none';
+        lightboxImg.style.opacity = '1';
+        lightboxImg.style.transition = 'opacity 0.3s ease';
+      };
       lightboxImg.src = current.src;
     }
     
@@ -529,17 +579,21 @@ function initCustomCursor() {
   }
   tick();
   
-  // Hover states
-  const hoverTargets = document.querySelectorAll('a, button, .proj-card, .service-card, .hobby-card, .subj-card, .ytab, .source-chip, .contact-link');
-  hoverTargets.forEach(target => {
-    target.addEventListener('mouseenter', () => {
+  // Hover states (Delegated to support dynamically created elements like carousel controls)
+  document.addEventListener('mouseover', (e) => {
+    const target = e.target.closest('a, button, .proj-card, .service-card, .hobby-card, .subj-card, .ytab, .source-chip, .contact-link, .carousel-btn, .carousel-dot, .lightbox-btn, .lightbox-close');
+    if (target) {
       cursor.classList.add('cursor-hover');
       cursorDot.classList.add('cursor-hover');
-    });
-    target.addEventListener('mouseleave', () => {
+    }
+  });
+  
+  document.addEventListener('mouseout', (e) => {
+    const target = e.target.closest('a, button, .proj-card, .service-card, .hobby-card, .subj-card, .ytab, .source-chip, .contact-link, .carousel-btn, .carousel-dot, .lightbox-btn, .lightbox-close');
+    if (target) {
       cursor.classList.remove('cursor-hover');
       cursorDot.classList.remove('cursor-hover');
-    });
+    }
   });
   
   // Hide when leaving window
@@ -792,6 +846,34 @@ function initCoverflowCarousels() {
       }, 60);
     });
   });
+
+  // Handle keyboard ArrowLeft and ArrowRight navigation for the carousel
+  document.addEventListener('keydown', (e) => {
+    // If lightbox is active, let lightbox handle arrow keys
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox && lightbox.classList.contains('active')) {
+      return;
+    }
+    
+    // Ignore if typing in an input/textarea
+    if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+      return;
+    }
+
+    if (e.key === 'ArrowLeft') {
+      const prevBtn = projectsContainer.querySelector('.carousel-btn-prev');
+      if (prevBtn && !prevBtn.disabled) {
+        e.preventDefault();
+        prevBtn.click();
+      }
+    } else if (e.key === 'ArrowRight') {
+      const nextBtn = projectsContainer.querySelector('.carousel-btn-next');
+      if (nextBtn && !nextBtn.disabled) {
+        e.preventDefault();
+        nextBtn.click();
+      }
+    }
+  });
 }
 
 function buildCarousel(container) {
@@ -1015,6 +1097,11 @@ function init3DTiltCards() {
     card.style.transition = 'transform 0.12s ease-out, box-shadow 0.12s ease-out';
 
     card.addEventListener('mousemove', (e) => {
+      // If it's a coverflow card and is NOT the active one, do not apply tilt (preserves translate3d offset)
+      if (card.closest('.coverflow-track') && !card.classList.contains('coverflow-active')) {
+        return;
+      }
+
       const rect = card.getBoundingClientRect();
       const relX = (e.clientX - rect.left) / rect.width  - 0.5; // -0.5 to 0.5
       const relY = (e.clientY - rect.top)  / rect.height - 0.5;
@@ -1031,14 +1118,88 @@ function init3DTiltCards() {
     });
 
     card.addEventListener('mouseleave', () => {
+      if (card.closest('.coverflow-track') && !card.classList.contains('coverflow-active')) {
+        return;
+      }
       card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
       card.style.boxShadow = '';
     });
   });
 }
 
-/* --- Global Video Controls (Spacebar Pause/Play) --- */
+/* --- Global Video Controls (Spacebar Pause/Play & Hover Overlays) --- */
 function initVideoPlaybackControls() {
+  const playSVG = `<svg width="36" height="36" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="6,3 20,12 6,21"></polygon></svg>`;
+  const pauseSVG = `<svg width="36" height="36" viewBox="0 0 24 24" fill="white" stroke="none"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>`;
+
+  const videoCards = document.querySelectorAll('.proj-card');
+  videoCards.forEach(card => {
+    const video = card.querySelector('video');
+    const videoPlayIcon = card.querySelector('.video-play-icon');
+    if (!video || !videoPlayIcon) return;
+
+    let isHovered = false;
+    let hideTimeout = null;
+
+    function updateIconState(state) {
+      if (state === 'play') {
+        videoPlayIcon.innerHTML = playSVG;
+        videoPlayIcon.classList.add('play-state');
+      } else {
+        videoPlayIcon.innerHTML = pauseSVG;
+        videoPlayIcon.classList.remove('play-state');
+      }
+    }
+
+    // Initialize: if video is not playing, make play icon visible by default
+    if (video.paused) {
+      updateIconState('play');
+      videoPlayIcon.classList.add('visible');
+    }
+
+    card.addEventListener('mouseenter', () => {
+      isHovered = true;
+      if (video.paused) {
+        updateIconState('play');
+        videoPlayIcon.classList.add('visible');
+      } else {
+        videoPlayIcon.classList.remove('visible');
+      }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      isHovered = false;
+      clearTimeout(hideTimeout);
+      if (!video.paused) {
+        videoPlayIcon.classList.remove('visible');
+      }
+    });
+
+    card.addEventListener('mousemove', () => {
+      if (video.paused) {
+        updateIconState('play');
+        videoPlayIcon.classList.add('visible');
+      } else {
+        videoPlayIcon.classList.remove('visible');
+      }
+    });
+
+    video.addEventListener('play', () => {
+      updateIconState('pause');
+      videoPlayIcon.classList.add('visible');
+      clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(() => {
+        videoPlayIcon.classList.remove('visible');
+      }, 1000);
+    });
+
+    video.addEventListener('pause', () => {
+      updateIconState('play');
+      clearTimeout(hideTimeout);
+      videoPlayIcon.classList.add('visible');
+    });
+  });
+
   document.addEventListener('keydown', (e) => {
     // Intercept Spacebar
     if (e.code === 'Space' || e.key === ' ') {
@@ -1047,15 +1208,17 @@ function initVideoPlaybackControls() {
         return;
       }
       
-      const activeCard = document.querySelector('.proj-card.coverflow-active');
-      let targetVideo = null;
-
-      // Prioritize the active carousel card's video if available
-      if (activeCard) {
-        targetVideo = activeCard.querySelector('video');
+      // Prioritize the hovered video card
+      let targetVideo = document.querySelector('.proj-card:hover video');
+      
+      if (!targetVideo) {
+        const activeCard = document.querySelector('.proj-card.coverflow-active');
+        if (activeCard) {
+          targetVideo = activeCard.querySelector('video');
+        }
       }
       
-      // Otherwise fallback to the first video
+      // Otherwise fallback to the first video on the page
       if (!targetVideo) {
         targetVideo = document.querySelector('video');
       }
