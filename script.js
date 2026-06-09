@@ -1077,11 +1077,11 @@ function buildCarousel(container) {
       dot.classList.toggle('active', i === activeIndex);
     });
 
-    // Update buttons
-    prevBtn.disabled = activeIndex === 0;
-    prevBtn.style.opacity = activeIndex === 0 ? '0.3' : '1';
-    nextBtn.disabled = activeIndex === cards.length - 1;
-    nextBtn.style.opacity = activeIndex === cards.length - 1 ? '0.3' : '1';
+    // Update buttons (always enabled for infinite looping)
+    prevBtn.disabled = false;
+    prevBtn.style.opacity = '1';
+    nextBtn.disabled = false;
+    nextBtn.style.opacity = '1';
   }
 
   // Click on card to center it if not in focus
@@ -1100,15 +1100,19 @@ function buildCarousel(container) {
   prevBtn.addEventListener('click', () => {
     if (activeIndex > 0) {
       activeIndex--;
-      updateCoverflow();
+    } else {
+      activeIndex = cards.length - 1;
     }
+    updateCoverflow();
   });
 
   nextBtn.addEventListener('click', () => {
     if (activeIndex < cards.length - 1) {
       activeIndex++;
-      updateCoverflow();
+    } else {
+      activeIndex = 0;
     }
+    updateCoverflow();
   });
 
   // ---- Drag / Swipe support ----
