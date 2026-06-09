@@ -344,6 +344,10 @@ function initLightbox() {
       vid.className = 'lightbox-video';
       vid.style.cssText = 'width:100%;height:100%;border-radius:12px;background:#000;opacity:0;';
       
+      if (typeof setupVideoDblClick === 'function') {
+        setupVideoDblClick(vid, lightboxIframeWrapper);
+      }
+      
       const safetyTimeout = setTimeout(() => {
         if (lightboxLoader) lightboxLoader.style.display = 'none';
         vid.style.opacity = '1';
@@ -1139,6 +1143,10 @@ function initVideoPlaybackControls() {
     const videoPlayIcon = card.querySelector('.video-play-icon');
     if (!video || !videoPlayIcon) return;
 
+    if (typeof setupVideoDblClick === 'function') {
+      setupVideoDblClick(video, video.parentElement || card);
+    }
+
     let isHovered = false;
     let hideTimeout = null;
 
@@ -1233,6 +1241,52 @@ function initVideoPlaybackControls() {
         }
       }
     }
+  });
+}
+
+/* --- Double-click to skip/rewind 10s inside video element --- */
+function setupVideoDblClick(video, container) {
+  video.addEventListener('dblclick', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const rect = video.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const isLeft = clickX < rect.width / 2;
+
+    const skipAmount = 10;
+    if (isLeft) {
+      video.currentTime = Math.max(0, video.currentTime - skipAmount);
+    } else {
+      video.currentTime = Math.min(video.duration || 0, video.currentTime + skipAmount);
+    }
+
+    // Visual ripple feedback
+    const ripple = document.createElement('div');
+    ripple.className = 'video-skip-ripple';
+    ripple.style.left = isLeft ? '25%' : '75%';
+
+    const arrows = isLeft ? '◀◀' : '▶▶';
+    const text = isLeft ? '-10s' : '+10s';
+    ripple.innerHTML = `<span style="font-size: 1.1rem; margin-bottom: 2px; line-height: 1;">${arrows}</span><span style="font-size: 0.75rem; letter-spacing: 0.05em;">${text}</span>`;
+
+    // Make container relative if static
+    const originalPos = window.getComputedStyle(container).position;
+    if (originalPos === 'static') {
+      container.style.position = 'relative';
+    }
+
+    container.appendChild(ripple);
+
+    // Trigger transition
+    requestAnimationFrame(() => {
+      ripple.style.transform = 'translate(-50%, -50%) scale(1.2)';
+      ripple.style.opacity = '0';
+    });
+
+    setTimeout(() => {
+      ripple.remove();
+    }, 400);
   });
 }
 
