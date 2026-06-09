@@ -244,11 +244,22 @@ function initLightbox() {
           if (iframeUrl) {
             type = iframeUrl.endsWith('.mp4') ? 'video' : (iframeUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? 'img' : 'iframe');
           }
+          
+          let startTime = 0;
+          if (type === 'video') {
+            const inlineVid = c.querySelector('video');
+            if (inlineVid) {
+              startTime = inlineVid.currentTime;
+            }
+          }
+
           galleryImages.push({
             type: type,
             src: iframeUrl ? iframeUrl : img.src,
-            title: title ? title.textContent : ''
+            title: title ? title.textContent : '',
+            startTime: startTime
           });
+
           if (c === card) {
             currentIndex = galleryImages.length - 1;
           }
@@ -266,6 +277,25 @@ function initLightbox() {
     });
   }
 
+  // Sync current lightbox video back to the inline player
+  function syncCurrentVideoBack() {
+    const lbWrapper = document.getElementById('lightboxIframeWrapper');
+    const existingVid = lbWrapper ? lbWrapper.querySelector('video.lightbox-video') : null;
+    if (existingVid && galleryImages[currentIndex]) {
+      const current = galleryImages[currentIndex];
+      const matchingCard = Array.from(document.querySelectorAll('.proj-card')).find(c => {
+        const v = c.querySelector('video');
+        return v && v.getAttribute('src').split('#')[0] === current.src.split('#')[0];
+      });
+      if (matchingCard) {
+        const inlineVideo = matchingCard.querySelector('video');
+        if (inlineVideo) {
+          inlineVideo.currentTime = existingVid.currentTime;
+        }
+      }
+    }
+  }
+
   function openLightbox() {
     pauseAllVideos(); // Stop any playing inline videos
     updateLightboxContent();
@@ -274,11 +304,14 @@ function initLightbox() {
   }
 
   function closeLightbox() {
+    syncCurrentVideoBack(); // Sync playback time before closing
     pauseAllVideos(); // Stop any lightbox video
+    
     // Remove lightbox video element
     const lbWrapper = document.getElementById('lightboxIframeWrapper');
     const existingVid = lbWrapper ? lbWrapper.querySelector('video.lightbox-video') : null;
     if (existingVid) existingVid.remove();
+    
     const lightboxLoader = document.getElementById('lightboxLoader');
     if (lightboxLoader) lightboxLoader.style.display = 'none';
     lightbox.classList.remove('active');
@@ -294,7 +327,6 @@ function initLightbox() {
     const iphoneNotch = document.getElementById('iphoneNotch');
     const lightboxLoader = document.getElementById('lightboxLoader');
 
-    // Show loader and reset opacity of content elements for a clean fade-in
     if (lightboxLoader) {
       lightboxLoader.style.display = 'flex';
     }
@@ -304,13 +336,11 @@ function initLightbox() {
     if (current.type === 'iframe') {
       lightboxImg.style.display = 'none';
       lightboxImg.src = '';
-      // Remove any existing video
       const existingVid = lightboxIframeWrapper.querySelector('video.lightbox-video');
       if (existingVid) existingVid.remove();
       lightboxIframeWrapper.style.display = 'block';
       lightboxIframe.style.display = 'block';
       
-      // Safety timeout: force reveal after 4 seconds if load fires late or gets blocked
       const safetyTimeout = setTimeout(() => {
         if (lightboxLoader) lightboxLoader.style.display = 'none';
         lightboxIframe.style.opacity = '1';
@@ -324,7 +354,6 @@ function initLightbox() {
       };
       lightboxIframe.src = current.src;
       
-      // Only apply iPhone styling to Tlexplorer mobile preview
       if (current.src && current.src.includes('tlexplorer')) {
         lightboxIframeWrapper.classList.add('iphone-mockup');
         iphoneNotch.style.display = 'block';
@@ -339,10 +368,9 @@ function initLightbox() {
       lightboxIframe.src = '';
       lightboxIframeWrapper.classList.remove('iphone-mockup');
       iphoneNotch.style.display = 'none';
-      // Remove any existing video
       const existingVid = lightboxIframeWrapper.querySelector('video.lightbox-video');
       if (existingVid) existingVid.remove();
-      // Create video element
+      
       const vid = document.createElement('video');
       vid.src = current.src;
       vid.controls = true;
@@ -350,11 +378,29 @@ function initLightbox() {
       vid.className = 'lightbox-video';
       vid.style.cssText = 'width:100%;height:100%;border-radius:12px;background:#000;opacity:0;';
       
+      if (current.startTime) {
+        vid.currentTime = current.startTime;
+      }
+
       if (typeof setupVideoDblClick === 'function') {
         setupVideoDblClick(vid, lightboxIframeWrapper);
       }
+
+      // Toggle play on click inside the video viewport
+      vid.addEventListener('click', (ev) => {
+        const rect = vid.getBoundingClientRect();
+        const clickY = ev.clientY - rect.top;
+        if (clickY < rect.height - 50) { // Skip click handling if controls are clicked
+          ev.preventDefault();
+          ev.stopPropagation();
+          if (vid.paused) {
+            vid.play();
+          } else {
+            vid.pause();
+          }
+        }
+      });
       
-      // Create custom overlay control buttons for lightbox video
       const lbControls = document.createElement('div');
       lbControls.className = 'lightbox-video-controls';
       
@@ -406,7 +452,6 @@ function initLightbox() {
     } else {
       lightboxIframeWrapper.style.display = 'none';
       lightboxIframe.src = '';
-      // Remove any existing video
       const existingVid = lightboxIframeWrapper.querySelector('video.lightbox-video');
       if (existingVid) existingVid.remove();
       lightboxImg.style.display = 'block';
@@ -427,7 +472,6 @@ function initLightbox() {
     
     lightboxCaption.textContent = current.title;
 
-    // Show/hide navigation arrows based on total items
     if (galleryImages.length <= 1) {
       prevBtn.style.display = 'none';
       nextBtn.style.display = 'none';
@@ -437,7 +481,6 @@ function initLightbox() {
     }
   }
 
-  // Auto-pause other inline card videos when one starts playing
   document.addEventListener('play', function(e) {
     if (e.target.tagName === 'VIDEO') {
       document.querySelectorAll('video').forEach(v => {
@@ -448,6 +491,7 @@ function initLightbox() {
 
   function showNext() {
     if (galleryImages.length === 0) return;
+    syncCurrentVideoBack(); // Sync current state
     pauseAllVideos();
     currentIndex = (currentIndex + 1) % galleryImages.length;
     updateLightboxContent();
@@ -455,22 +499,20 @@ function initLightbox() {
 
   function showPrev() {
     if (galleryImages.length === 0) return;
+    syncCurrentVideoBack(); // Sync current state
     pauseAllVideos();
     currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
     updateLightboxContent();
   }
 
-  // Event Listeners
   closeBtn.addEventListener('click', closeLightbox);
   prevBtn.addEventListener('click', showPrev);
   nextBtn.addEventListener('click', showNext);
   
-  // Close when clicking backdrop
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) closeLightbox();
   });
 
-  // Keyboard navigation
   document.addEventListener('keydown', (e) => {
     if (!lightbox.classList.contains('active')) return;
     if (e.key === 'Escape') closeLightbox();
@@ -1320,19 +1362,25 @@ function initVideoPlaybackControls() {
         return;
       }
       
-      // Prioritize the hovered video card
-      let targetVideo = document.querySelector('.proj-card:hover video');
-      
-      if (!targetVideo) {
-        const activeCard = document.querySelector('.proj-card.coverflow-active');
-        if (activeCard) {
-          targetVideo = activeCard.querySelector('video');
+      let targetVideo = null;
+      const lightbox = document.getElementById('lightbox');
+      if (lightbox && lightbox.classList.contains('active')) {
+        targetVideo = lightbox.querySelector('video.lightbox-video');
+      } else {
+        // Prioritize the hovered video card
+        targetVideo = document.querySelector('.proj-card:hover video');
+        
+        if (!targetVideo) {
+          const activeCard = document.querySelector('.proj-card.coverflow-active');
+          if (activeCard) {
+            targetVideo = activeCard.querySelector('video');
+          }
         }
-      }
-      
-      // Otherwise fallback to the first video on the page
-      if (!targetVideo) {
-        targetVideo = document.querySelector('video');
+        
+        // Otherwise fallback to the first video on the page
+        if (!targetVideo) {
+          targetVideo = document.querySelector('video');
+        }
       }
 
       if (targetVideo) {
