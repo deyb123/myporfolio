@@ -1271,9 +1271,14 @@ function initVideoPlaybackControls() {
       controlsContainer.appendChild(forwardBtn);
     }
 
-    // Toggle play inline when clicking the video or the play icon overlay
+    // Toggle play inline when clicking anywhere on the wrapper (except other control buttons)
     video.style.cursor = 'pointer';
     const toggleInlinePlay = (e) => {
+      // Skip toggle if they clicked on rewind, forward, or expand buttons
+      if (e.target.closest('.video-overlay-btn:not(.video-play-icon)')) {
+        return;
+      }
+
       e.preventDefault();
       e.stopPropagation();
       
@@ -1289,8 +1294,9 @@ function initVideoPlaybackControls() {
       }
     };
 
-    video.addEventListener('click', toggleInlinePlay);
-    videoPlayIcon.addEventListener('click', toggleInlinePlay);
+    if (wrapper) {
+      wrapper.addEventListener('click', toggleInlinePlay);
+    }
 
     let isHovered = false;
     let hideTimeout = null;
