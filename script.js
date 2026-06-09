@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Viewer Tracker Notification
   initViewerTracker();
+
+  // Tupas Particle Animation
+  initTupasParticles();
 });
 
 /* --- Mobile Navigation Hamburger Menu --- */
@@ -1691,3 +1694,189 @@ function initSplashScreen() {
   requestAnimationFrame(updateProgress);
 }
 
+
+/* ============================================================
+   TUPAS PARTICLE ANIMATION — 3D Orbital Rings
+   ============================================================ */
+function initTupasParticles() {
+  const canvas = document.getElementById('tupas-particles');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const W = 180, H = 120;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  ctx.scale(dpr, dpr);
+
+  const cx = W * 0.28;
+  const cy = H * 0.5;
+
+  // Mouse interaction
+  const mouse = { x: -999, y: -999, active: false };
+  canvas.addEventListener('mousemove', e => {
+    const r = canvas.getBoundingClientRect();
+    mouse.x = (e.clientX - r.left) * (W / r.width);
+    mouse.y = (e.clientY - r.top)  * (H / r.height);
+    mouse.active = true;
+  });
+  canvas.addEventListener('mouseleave', () => { mouse.active = false; });
+
+  // Ring configurations
+  const rings = [
+    { radiusX: 35, radiusY: 12, tilt: 0.2, speed: 0.015, color: [0, 220, 255], particleCount: 15 },
+    { radiusX: 45, radiusY: 18, tilt: -0.4, speed: -0.01, color: [255, 185, 40], particleCount: 20 },
+    { radiusX: 55, radiusY: 8, tilt: 0.8, speed: 0.008, color: [180, 100, 255], particleCount: 25 },
+  ];
+
+  const particles = [];
+  rings.forEach((ring, ringIndex) => {
+    for (let i = 0; i < ring.particleCount; i++) {
+      particles.push({
+        ringIndex,
+        angle: (i / ring.particleCount) * Math.PI * 2,
+        size: 1 + Math.random() * 1.5,
+        speedOffset: (Math.random() - 0.5) * 0.005,
+        history: [], // For trails
+      });
+    }
+  });
+
+  // Core particles
+  const coreParticles = [];
+  for (let i = 0; i < 30; i++) {
+    coreParticles.push({
+      angle: Math.random() * Math.PI * 2,
+      radius: Math.random() * 10,
+      speed: (Math.random() - 0.5) * 0.05,
+      size: 0.5 + Math.random() * 1.5,
+      alpha: 0.5 + Math.random() * 0.5,
+    });
+  }
+
+  function rgba(c, a) {
+    return `rgba(${c[0]},${c[1]},${c[2]},${Math.max(0, Math.min(a, 1)).toFixed(3)})`;
+  }
+
+  let raf, t = 0;
+
+  function draw() {
+    // Additive blending for glows
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.clearRect(0, 0, W, H);
+    
+    t += 1;
+
+    // Mouse distortion
+    let distScale = 1;
+    let distDx = 0;
+    let distDy = 0;
+    if (mouse.active) {
+      const dx = mouse.x - cx;
+      const dy = mouse.y - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 60) {
+        distScale = 1 + (1 - dist / 60) * 0.3; // Expand slightly when hovered
+        distDx = (dx / dist) * (1 - dist/60) * 5;
+        distDy = (dy / dist) * (1 - dist/60) * 5;
+      }
+    }
+    
+    const currentCx = cx + distDx;
+    const currentCy = cy + distDy;
+
+    ctx.globalCompositeOperation = 'lighter';
+
+    // Draw Core
+    const corePulse = 1 + 0.1 * Math.sin(t * 0.05);
+    const coreGlow = ctx.createRadialGradient(currentCx, currentCy, 0, currentCx, currentCy, 20 * corePulse * distScale);
+    coreGlow.addColorStop(0, 'rgba(0, 220, 255, 0.4)');
+    coreGlow.addColorStop(0.5, 'rgba(0, 150, 255, 0.1)');
+    coreGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = coreGlow;
+    ctx.beginPath();
+    ctx.arc(currentCx, currentCy, 20 * corePulse * distScale, 0, Math.PI * 2);
+    ctx.fill();
+
+    coreParticles.forEach(p => {
+      p.angle += p.speed;
+      const x = currentCx + Math.cos(p.angle) * p.radius * corePulse * distScale;
+      const y = currentCy + Math.sin(p.angle) * p.radius * corePulse * distScale;
+      ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+      ctx.beginPath();
+      ctx.arc(x, y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // Draw rings and orbital particles
+    particles.forEach(p => {
+      const ring = rings[p.ringIndex];
+      p.angle += ring.speed + p.speedOffset;
+
+      // Calculate 3D position
+      // Using parametric equation for an ellipse, then rotating it
+      const xBase = Math.cos(p.angle) * ring.radiusX * distScale;
+      const yBase = Math.sin(p.angle) * ring.radiusY * distScale;
+
+      const cosT = Math.cos(ring.tilt);
+      const sinT = Math.sin(ring.tilt);
+
+      const x = currentCx + xBase * cosT - yBase * sinT;
+      const y = currentCy + xBase * sinT + yBase * cosT;
+      
+      // Calculate depth (z) for z-sorting/sizing. Approximate based on angle.
+      // -Math.sin(p.angle) goes from -1 to 1. When it's 1, it's in front.
+      const z = -Math.sin(p.angle); 
+      const scale = 1 + z * 0.3; // Particles in front are bigger
+      const alpha = 0.3 + (z + 1) * 0.35; // Particles in front are more opaque
+
+      // Record history for trails
+      p.history.push({ x, y, scale, alpha });
+      if (p.history.length > 8) {
+        p.history.shift();
+      }
+
+      // Draw trails
+      if (p.history.length > 1) {
+        for(let i=0; i<p.history.length-1; i++) {
+          const pt1 = p.history[i];
+          const pt2 = p.history[i+1];
+          const trailAlpha = (i / p.history.length) * pt1.alpha * 0.5;
+          ctx.beginPath();
+          ctx.moveTo(pt1.x, pt1.y);
+          ctx.lineTo(pt2.x, pt2.y);
+          ctx.strokeStyle = rgba(ring.color, trailAlpha);
+          ctx.lineWidth = p.size * pt1.scale;
+          ctx.stroke();
+        }
+      }
+
+      // Draw particle
+      ctx.beginPath();
+      ctx.arc(x, y, p.size * scale, 0, Math.PI * 2);
+      ctx.fillStyle = rgba(ring.color, alpha);
+      ctx.fill();
+      
+      // Add a little glow to the particle itself
+      ctx.beginPath();
+      ctx.arc(x, y, p.size * scale * 3, 0, Math.PI * 2);
+      const pGlow = ctx.createRadialGradient(x,y,0, x,y, p.size * scale * 3);
+      pGlow.addColorStop(0, rgba(ring.color, alpha * 0.8));
+      pGlow.addColorStop(1, rgba(ring.color, 0));
+      ctx.fillStyle = pGlow;
+      ctx.fill();
+    });
+
+    raf = requestAnimationFrame(draw);
+  }
+
+  draw();
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { if (!raf) draw(); }
+      else { cancelAnimationFrame(raf); raf = null; }
+    });
+  }, { threshold: 0.1 });
+  obs.observe(canvas);
+}

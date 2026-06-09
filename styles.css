@@ -547,6 +547,33 @@ nav.collapsed .nav-cta {
   letter-spacing: -0.02em;
 }
 
+/* --- Tupas Particle Row --- */
+.hero-name-row {
+  display: block;
+  margin-bottom: 0;
+}
+
+/* Inline flex so canvas hugs the right of Tupas text */
+.tupas-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0px;
+  line-height: 1;
+}
+
+.tupas-particle-canvas {
+  display: inline-block;
+  width: 180px;
+  height: 120px;
+  flex-shrink: 0;
+  vertical-align: middle;
+  pointer-events: auto;
+  /* Fade left edge so it blends from the text into dark bg */
+  -webkit-mask-image: radial-gradient(ellipse 75% 75% at 35% 50%, black 25%, transparent 100%);
+  mask-image: radial-gradient(ellipse 75% 75% at 35% 50%, black 25%, transparent 100%);
+}
+
+
 .hero-redesign .hero-divider {
   width: 60px;
   height: 3px;
@@ -3714,3 +3741,284 @@ body.loading {
 
 
 
+/* ====================================================
+   COMPREHENSIVE RESPONSIVE OVERHAUL
+   ==================================================== */
+
+/* ---- Tablet & small desktop (≤1024px) ---- */
+@media (max-width: 1024px) {
+  /* Hero */
+  #hero.hero-redesign {
+    grid-template-columns: 1fr;
+    padding-left: clamp(1.5rem, 6vw, 4rem);
+    padding-right: clamp(1.5rem, 6vw, 4rem);
+    min-height: auto;
+    padding-top: calc(var(--nav-h) + 2rem);
+    padding-bottom: 3rem;
+  }
+  .hero-redesign .hero-visual {
+    display: none; /* hide portrait on tablet, keep info clean */
+  }
+  .hero-redesign .hero-info {
+    padding-left: 0;
+    align-items: flex-start;
+    text-align: left;
+  }
+  /* Hide particle canvas on tablet — not enough space */
+  .tupas-particle-canvas {
+    display: none;
+  }
+
+  /* Carousel track */
+  .coverflow-track {
+    height: 380px;
+  }
+  .coverflow-track .proj-card {
+    width: 480px;
+    margin-left: -240px;
+    margin-top: -135px;
+  }
+
+  /* Journey / hobbies sections */
+  .hobbies-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .journey-grid,
+  .timeline-wrapper {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* ---- Mobile landscape / large phone (≤768px) ---- */
+@media (max-width: 768px) {
+  /* Global spacing */
+  .wrap {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  /* Hero */
+  #hero.hero-redesign {
+    padding-top: calc(var(--nav-h) + 1.5rem);
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  .hero-redesign .hero-name {
+    font-size: clamp(2.8rem, 10vw, 4.2rem);
+  }
+  .hero-redesign .hero-desc {
+    font-size: 0.95rem;
+    max-width: 100%;
+  }
+  .hero-name-row {
+    display: block;
+  }
+  .tupas-particle-canvas {
+    display: none;
+  }
+
+  /* Carousel */
+  .coverflow-track {
+    height: 280px;
+  }
+  .coverflow-track .proj-card {
+    width: 320px;
+    margin-left: -160px;
+    margin-top: -90px;
+  }
+  .coverflow-nav {
+    gap: 0.75rem;
+  }
+  .coverflow-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  /* Section titles */
+  .section-title {
+    font-size: clamp(1.8rem, 7vw, 2.5rem);
+  }
+  .section-label {
+    font-size: 0.7rem;
+  }
+
+  /* Services */
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  /* About-me */
+  .about-me-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .am-image-wrapper {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  /* Hobbies */
+  .hobbies-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  /* Journey / Timeline */
+  .timeline-event {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .timeline-line {
+    display: none;
+  }
+
+  /* Projects toolbar */
+  .projects-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  .filter-group {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .filter-btn {
+    font-size: 0.78rem;
+    padding: 0.4rem 0.9rem;
+  }
+
+  /* Contact */
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .contact-links-grid {
+    grid-template-columns: 1fr;
+  }
+  .cfc-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Footer */
+  .ag-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .ag-footer {
+    padding: 3rem 1.25rem 2rem;
+  }
+
+  /* Lightbox */
+  .lightbox-close {
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+  }
+  .lightbox-prev { left: 0.5rem; }
+  .lightbox-next { right: 0.5rem; }
+}
+
+/* ---- Mobile portrait (≤480px) ---- */
+@media (max-width: 480px) {
+  /* Hero */
+  .hero-redesign .hero-name {
+    font-size: clamp(2.4rem, 12vw, 3.2rem);
+    letter-spacing: -0.02em;
+  }
+  .hero-redesign .hero-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+  }
+  .hero-redesign .hero-signature {
+    font-size: 1.9rem;
+  }
+  .hero-socials {
+    gap: 1rem;
+  }
+  .social-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Carousel */
+  .coverflow-track {
+    height: 220px;
+  }
+  .coverflow-track .proj-card {
+    width: 260px;
+    margin-left: -130px;
+    margin-top: -73px;
+  }
+  .coverflow-label {
+    font-size: 0.85rem;
+  }
+
+  /* Hobbies */
+  .hobbies-grid {
+    grid-template-columns: 1fr;
+  }
+  .hobby-card {
+    padding: 1.25rem;
+  }
+
+  /* Stats */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  /* Badges on small screens */
+  .proj-link-badge,
+  .app-preview-badge {
+    top: 8px;
+    right: 8px;
+    padding: 0.35rem;
+  }
+  .proj-card:hover .proj-link-badge,
+  .proj-card:hover .app-preview-badge {
+    max-width: 150px;
+    padding: 0.35rem 0.7rem;
+    gap: 5px;
+  }
+
+  /* Scroll top button */
+  .scroll-top-btn {
+    width: 40px;
+    height: 40px;
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+/* ---- Small phones (≤360px) ---- */
+@media (max-width: 360px) {
+  .hero-redesign .hero-name {
+    font-size: 2.2rem;
+  }
+  .coverflow-track {
+    height: 190px;
+  }
+  .coverflow-track .proj-card {
+    width: 220px;
+    margin-left: -110px;
+    margin-top: -62px;
+  }
+  .nav-logo-tag {
+    display: none;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
