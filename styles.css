@@ -3389,75 +3389,123 @@ body.loading {
   transition: transform 0.4s cubic-bezier(0.1, 0.8, 0.1, 1), opacity 0.4s ease;
 }
 
-/* Elegant visible skip button on video cards */
-.video-skip-btn {
+/* Video Center Controls Overlay */
+.video-overlay-controls {
   position: absolute;
-  bottom: 15px;
-  right: 15px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
   z-index: 100;
-  background: rgba(14, 18, 43, 0.72);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+}
+
+.proj-card:hover .video-overlay-controls {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.video-overlay-btn {
+  background: rgba(14, 18, 43, 0.82);
   border: 1px solid rgba(0, 240, 255, 0.3);
   color: #fff;
-  padding: 6px 12px;
-  border-radius: 30px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 5px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  opacity: 0;
-  transform: translateY(8px);
+  padding: 0;
 }
 
-.proj-card:hover .video-skip-btn {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.video-skip-btn:hover {
+.video-overlay-btn:hover {
   background: var(--cyan);
   color: #05070e;
   border-color: var(--cyan);
+  transform: scale(1.1);
   box-shadow: 0 0 15px var(--cyan-border);
 }
 
-/* Floating skip button inside Lightbox View */
-.lightbox-video-skip-btn {
+.video-overlay-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Redefine play icon layout inside the control group */
+.video-play-icon {
+  position: static !important;
+  transform: none !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background: rgba(14, 18, 43, 0.82) !important;
+  border: 1px solid rgba(0, 240, 255, 0.3) !important;
+  color: #fff !important;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.video-play-icon:hover {
+  background: var(--cyan) !important;
+  color: #05070e !important;
+  border-color: var(--cyan) !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 0 20px var(--cyan-border) !important;
+}
+
+/* Lightbox video control bar overlay */
+.lightbox-video-controls {
   position: absolute;
   bottom: 25px;
-  right: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
   z-index: 1001;
+}
+
+.lightbox-video-btn {
   background: rgba(14, 18, 43, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(0, 240, 255, 0.4);
   color: #fff;
-  padding: 10px 18px;
-  border-radius: 30px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 700;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 7px;
+  justify-content: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.55);
   transition: all 0.3s ease;
 }
 
-.lightbox-video-skip-btn:hover {
+.lightbox-video-btn:hover {
   background: var(--cyan);
   color: #05070e;
   border-color: var(--cyan);
+  transform: scale(1.1);
   box-shadow: 0 0 20px var(--cyan-border);
 }
+
+.lightbox-video-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
 
 
 

@@ -348,19 +348,37 @@ function initLightbox() {
         setupVideoDblClick(vid, lightboxIframeWrapper);
       }
       
-      // Create floating skip button for lightbox
-      const lbSkipBtn = document.createElement('button');
-      lbSkipBtn.className = 'lightbox-video-skip-btn';
-      lbSkipBtn.innerHTML = `<span>+10s</span><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg>`;
-      lbSkipBtn.setAttribute('title', 'Skip forward 10s');
-      lbSkipBtn.addEventListener('click', (e) => {
+      // Create custom overlay control buttons for lightbox video
+      const lbControls = document.createElement('div');
+      lbControls.className = 'lightbox-video-controls';
+      
+      const lbBackBtn = document.createElement('button');
+      lbBackBtn.className = 'lightbox-video-btn';
+      lbBackBtn.setAttribute('title', 'Rewind 10 seconds');
+      lbBackBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 2v6h6M2.66 15.57a10 10 0 1 0 .57-8.38l-.73-.73"/><text x="12" y="15" font-size="8" font-family="system-ui, sans-serif" font-weight="900" text-anchor="middle" fill="currentColor" stroke="none">10</text></svg>`;
+      lbBackBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        vid.currentTime = Math.max(0, vid.currentTime - 10);
+        if (typeof showSkipRipple === 'function') {
+          showSkipRipple(vid, lightboxIframeWrapper, true);
+        }
+      });
+
+      const lbForwardBtn = document.createElement('button');
+      lbForwardBtn.className = 'lightbox-video-btn';
+      lbForwardBtn.setAttribute('title', 'Skip forward 10 seconds');
+      lbForwardBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.73-.73"/><text x="12" y="15" font-size="8" font-family="system-ui, sans-serif" font-weight="900" text-anchor="middle" fill="currentColor" stroke="none">10</text></svg>`;
+      lbForwardBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         vid.currentTime = Math.min(vid.duration || 0, vid.currentTime + 10);
         if (typeof showSkipRipple === 'function') {
           showSkipRipple(vid, lightboxIframeWrapper, false);
         }
       });
-      lightboxIframeWrapper.appendChild(lbSkipBtn);
+
+      lbControls.appendChild(lbBackBtn);
+      lbControls.appendChild(lbForwardBtn);
+      lightboxIframeWrapper.appendChild(lbControls);
       
       const safetyTimeout = setTimeout(() => {
         if (lightboxLoader) lightboxLoader.style.display = 'none';
@@ -1161,12 +1179,28 @@ function initVideoPlaybackControls() {
       setupVideoDblClick(video, video.parentElement || card);
     }
 
-    // Create inline skip 10s button
-    const skipBtn = document.createElement('button');
-    skipBtn.className = 'video-skip-btn';
-    skipBtn.innerHTML = `<span>+10s</span><svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg>`;
-    skipBtn.setAttribute('title', 'Skip forward 10 seconds');
-    skipBtn.addEventListener('click', (e) => {
+    // Create custom overlay controls
+    const controlsContainer = document.createElement('div');
+    controlsContainer.className = 'video-overlay-controls';
+
+    const backBtn = document.createElement('button');
+    backBtn.className = 'video-overlay-btn video-back-btn';
+    backBtn.setAttribute('title', 'Rewind 10 seconds');
+    backBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2.5 2v6h6M2.66 15.57a10 10 0 1 0 .57-8.38l-.73-.73"/><text x="12" y="15.2" font-size="8" font-family="system-ui, sans-serif" font-weight="900" text-anchor="middle" fill="currentColor" stroke="none">10</text></svg>`;
+    backBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      video.currentTime = Math.max(0, video.currentTime - 10);
+      if (typeof showSkipRipple === 'function') {
+        showSkipRipple(video, video.parentElement || card, true);
+      }
+    });
+
+    const forwardBtn = document.createElement('button');
+    forwardBtn.className = 'video-overlay-btn video-forward-btn';
+    forwardBtn.setAttribute('title', 'Skip forward 10 seconds');
+    forwardBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l.73-.73"/><text x="12" y="15.2" font-size="8" font-family="system-ui, sans-serif" font-weight="900" text-anchor="middle" fill="currentColor" stroke="none">10</text></svg>`;
+    forwardBtn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
       video.currentTime = Math.min(video.duration || 0, video.currentTime + 10);
@@ -1177,7 +1211,10 @@ function initVideoPlaybackControls() {
 
     const wrapper = card.querySelector('.proj-img-wrapper');
     if (wrapper) {
-      wrapper.appendChild(skipBtn);
+      wrapper.appendChild(controlsContainer);
+      controlsContainer.appendChild(backBtn);
+      controlsContainer.appendChild(videoPlayIcon);
+      controlsContainer.appendChild(forwardBtn);
     }
 
     let isHovered = false;
