@@ -1449,6 +1449,11 @@ function setupVideoDblClick(video, container) {
 
 /* --- Shared skip ripple feedback animation --- */
 function showSkipRipple(video, container, isLeft) {
+  // Create side blur overlay
+  const blurOverlay = document.createElement('div');
+  blurOverlay.className = `video-side-blur ${isLeft ? 'left' : 'right'}`;
+  
+  // Create center ripple bubble
   const ripple = document.createElement('div');
   ripple.className = 'video-skip-ripple';
   ripple.style.left = isLeft ? '25%' : '75%';
@@ -1472,16 +1477,22 @@ function showSkipRipple(video, container, isLeft) {
     container.style.position = 'relative';
   }
 
+  container.appendChild(blurOverlay);
   container.appendChild(ripple);
 
-  // Trigger transition
+  // Trigger animations
   requestAnimationFrame(() => {
+    blurOverlay.style.opacity = '1';
     ripple.style.transform = 'translate(-50%, -50%) scale(1.2)';
     ripple.style.opacity = '0';
   });
 
   setTimeout(() => {
-    ripple.remove();
+    blurOverlay.style.opacity = '0';
+    setTimeout(() => {
+      blurOverlay.remove();
+      ripple.remove();
+    }, 400);
   }, 400);
 }
 

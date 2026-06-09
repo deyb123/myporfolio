@@ -3598,6 +3598,35 @@ body.loading {
   animation: spinCounterClockwise 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Side Blur Overlays for Rewind/Forward Click */
+.video-side-blur {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 99;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.1, 0.8, 0.1, 1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.video-side-blur.left {
+  left: 0;
+  background: linear-gradient(90deg, rgba(5, 7, 14, 0.45) 0%, transparent 100%);
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.video-side-blur.right {
+  right: 0;
+  background: linear-gradient(-90deg, rgba(5, 7, 14, 0.45) 0%, transparent 100%);
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+
 
 
 
