@@ -118,29 +118,33 @@
 
   <!-- HERO SECTION -->
   <header id="hero" class="hero-redesign">
+    <!-- Background Motion Graphics Canvas -->
+    <canvas id="hero-bg-canvas" class="hero-bg-canvas" aria-hidden="true"></canvas>
+
     <div class="hero-visual">
-      <div class="hero-image-wrapper">
+      <div class="hero-image-wrapper stagger-in stagger-1">
         <img src="assets/profile_monochrome.png" alt="Dave Tupas" class="hero-profile-img">
         <div class="image-fade-mask"></div>
       </div>
     </div>
 
     <div class="hero-info">
-      <p class="hero-label">ABOUT PERSONAL</p>
-      <div class="hero-name-row">
+      <p class="hero-label stagger-in stagger-2">ABOUT PERSONAL</p>
+      <div class="hero-name-row stagger-in stagger-3">
         <h1 class="hero-name">Hello, Im Dave<br>
           <span class="tupas-line">
             <span class="text-cyan">Tupas</span><canvas id="tupas-particles" class="tupas-particle-canvas" aria-hidden="true"></canvas>
           </span>
         </h1>
       </div>
-      <div class="hero-divider"></div>
-      <p class="hero-desc">Sometimes the only way to ever find yourself is to get completely lost. — And I'm still
-        finding my way, semester by semester. I could also master some basics in programming. The only thing I can do
-        now is move forward and keep improving.</p>
-      <p class="hero-signature">Dave Tupas</p>
+      <div class="hero-divider stagger-in stagger-4"></div>
+      <p class="hero-desc stagger-in stagger-5">
+        <span class="hero-quote">"Sometimes the only way to ever find yourself is to get completely lost."</span>
+        <span class="hero-desc-body">— And I'm still finding my way, semester by semester. I could also master some basics in programming. The only thing I can do now is move forward and keep improving.</span>
+      </p>
+      <p class="hero-signature stagger-in stagger-6">Dave Tupas</p>
 
-      <div class="hero-socials">
+      <div class="hero-socials stagger-in stagger-6">
         <a href="#" class="social-icon" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
             stroke-width="2">
             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>

@@ -35,6 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Tupas Particle Animation
   initTupasParticles();
+
+  // Hero Motion Graphics
+  initHeroMotionGraphics();
 });
 
 /* --- Mobile Navigation Hamburger Menu --- */
@@ -1879,4 +1882,105 @@ function initTupasParticles() {
     });
   }, { threshold: 0.1 });
   obs.observe(canvas);
+}
+
+/* ============================================================
+   HERO MOTION GRAPHICS (Parallax & Canvas)
+   ============================================================ */
+function initHeroMotionGraphics() {
+  const heroSection = document.getElementById('hero');
+  const heroVisual = document.querySelector('.hero-visual');
+  const heroInfo = document.querySelector('.hero-info');
+  const canvas = document.getElementById('hero-bg-canvas');
+  
+  if (!heroSection) return;
+
+  // 2. Cyber-Network Canvas
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  let w, h;
+  const nodes = [];
+  const MAX_NODES = 40;
+  let mouse = { x: null, y: null };
+
+  function resize() {
+    w = canvas.width = heroSection.offsetWidth;
+    h = canvas.height = heroSection.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  for (let i = 0; i < MAX_NODES; i++) {
+    nodes.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: (Math.random() - 0.5) * 0.6,
+      radius: Math.random() * 1.5 + 0.5
+    });
+  }
+
+  heroSection.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+  heroSection.addEventListener('mouseleave', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    
+    // Only animate if canvas is visible (intersection observer could be used, but this is simple)
+    const rect = canvas.getBoundingClientRect();
+    if (rect.bottom < 0) {
+      requestAnimationFrame(draw);
+      return;
+    }
+
+    for (let i = 0; i < nodes.length; i++) {
+      let n = nodes[i];
+      n.x += n.vx;
+      n.y += n.vy;
+
+      if (n.x < 0 || n.x > w) n.vx *= -1;
+      if (n.y < 0 || n.y > h) n.vy *= -1;
+
+      if (mouse.x !== null) {
+        let dx = mouse.x - n.x;
+        let dy = mouse.y - n.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          n.x -= dx * 0.015;
+          n.y -= dy * 0.015;
+        }
+      }
+
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0, 240, 255, 0.4)';
+      ctx.fill();
+
+      for (let j = i + 1; j < nodes.length; j++) {
+        let n2 = nodes[j];
+        let dx = n.x - n2.x;
+        let dy = n.y - n2.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(n.x, n.y);
+          ctx.lineTo(n2.x, n2.y);
+          ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 - dist/120 * 0.15})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
 }
