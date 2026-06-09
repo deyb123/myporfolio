@@ -1389,6 +1389,12 @@ function initVideoPlaybackControls() {
         }
       }
 
+      // If a video element already has native browser focus, the browser will natively
+      // handle the space key to play/pause. Skip manual toggle to avoid double-toggling.
+      if (document.activeElement && document.activeElement.tagName === 'VIDEO') {
+        return;
+      }
+
       if (targetVideo) {
         e.preventDefault(); // Prevent scrolling down
         if (targetVideo.paused) {
