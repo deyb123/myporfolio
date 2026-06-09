@@ -1223,10 +1223,10 @@ function initVideoPlaybackControls() {
     const wrapper = card.querySelector('.proj-img-wrapper');
     if (wrapper) {
       wrapper.appendChild(controlsContainer);
+      wrapper.appendChild(expandBtn); // Append directly to wrapper to allow top-right positioning
       controlsContainer.appendChild(backBtn);
       controlsContainer.appendChild(videoPlayIcon);
       controlsContainer.appendChild(forwardBtn);
-      controlsContainer.appendChild(expandBtn);
     }
 
     // Toggle play inline when clicking the video or the play icon overlay

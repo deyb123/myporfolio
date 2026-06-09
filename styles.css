@@ -3503,6 +3503,47 @@ body.loading {
   height: 24px;
 }
 
+/* Expand Badge in top-right corner of card */
+.video-expand-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 101;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+  transition: all 0.25s ease;
+  opacity: 0;
+  transform: translateY(-5px);
+  padding: 0;
+}
+
+.proj-card:hover .video-expand-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.video-expand-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.08);
+}
+
+.video-expand-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+
 
 
 
