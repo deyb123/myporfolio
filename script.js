@@ -1482,17 +1482,17 @@ function showSkipRipple(video, container, isLeft) {
 
   // Trigger animations
   requestAnimationFrame(() => {
-    blurOverlay.style.opacity = '1';
+    blurOverlay.classList.add('active');
     ripple.style.transform = 'translate(-50%, -50%) scale(1.2)';
     ripple.style.opacity = '0';
   });
 
   setTimeout(() => {
-    blurOverlay.style.opacity = '0';
+    blurOverlay.classList.remove('active');
     setTimeout(() => {
       blurOverlay.remove();
       ripple.remove();
-    }, 400);
+    }, 350);
   }, 400);
 }
 
