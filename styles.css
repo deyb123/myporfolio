@@ -3371,8 +3371,8 @@ body.loading {
   top: 50%;
   transform: translate(-50%, -50%) scale(0.8);
   opacity: 1;
-  background: rgba(0, 240, 255, 0.22);
-  border: 1px solid rgba(0, 240, 255, 0.45);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: #fff;
   border-radius: 50%;
   width: 72px;
@@ -3385,7 +3385,7 @@ body.loading {
   justify-content: center;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
   transition: transform 0.4s cubic-bezier(0.1, 0.8, 0.1, 1), opacity 0.4s ease;
 }
 
@@ -3394,14 +3394,14 @@ body.loading {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0.9);
+  transform: translate(-50%, -50%) scale(0.95);
   display: flex;
   align-items: center;
   gap: 1.25rem;
   z-index: 100;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .proj-card:hover .video-overlay-controls {
@@ -3411,9 +3411,9 @@ body.loading {
 }
 
 .video-overlay-btn {
-  background: rgba(14, 18, 43, 0.82);
-  border: 1px solid rgba(0, 240, 255, 0.3);
-  color: #fff;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.95);
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -3421,17 +3421,16 @@ body.loading {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
   padding: 0;
 }
 
 .video-overlay-btn:hover {
-  background: var(--cyan);
-  color: #05070e;
-  border-color: var(--cyan);
-  transform: scale(1.1);
-  box-shadow: 0 0 15px var(--cyan-border);
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.08);
 }
 
 .video-overlay-btn svg {
@@ -3448,22 +3447,21 @@ body.loading {
   display: flex !important;
   align-items: center;
   justify-content: center;
-  background: rgba(14, 18, 43, 0.82) !important;
-  border: 1px solid rgba(0, 240, 255, 0.3) !important;
-  color: #fff !important;
+  background: rgba(0, 0, 0, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
 }
 
 .video-play-icon:hover {
-  background: var(--cyan) !important;
-  color: #05070e !important;
-  border-color: var(--cyan) !important;
-  transform: scale(1.1) !important;
-  box-shadow: 0 0 20px var(--cyan-border) !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  transform: scale(1.08) !important;
 }
 
 /* Lightbox video control bar overlay */
@@ -3479,9 +3477,9 @@ body.loading {
 }
 
 .lightbox-video-btn {
-  background: rgba(14, 18, 43, 0.85);
-  border: 1px solid rgba(0, 240, 255, 0.4);
-  color: #fff;
+  background: rgba(0, 0, 0, 0.7) ;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.95);
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -3489,22 +3487,22 @@ body.loading {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.55);
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
 }
 
 .lightbox-video-btn:hover {
-  background: var(--cyan);
-  color: #05070e;
-  border-color: var(--cyan);
-  transform: scale(1.1);
-  box-shadow: 0 0 20px var(--cyan-border);
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.08);
 }
 
 .lightbox-video-btn svg {
   width: 24px;
   height: 24px;
 }
+
 
 
 
