@@ -348,6 +348,20 @@ function initLightbox() {
         setupVideoDblClick(vid, lightboxIframeWrapper);
       }
       
+      // Create floating skip button for lightbox
+      const lbSkipBtn = document.createElement('button');
+      lbSkipBtn.className = 'lightbox-video-skip-btn';
+      lbSkipBtn.innerHTML = `<span>+10s</span><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg>`;
+      lbSkipBtn.setAttribute('title', 'Skip forward 10s');
+      lbSkipBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        vid.currentTime = Math.min(vid.duration || 0, vid.currentTime + 10);
+        if (typeof showSkipRipple === 'function') {
+          showSkipRipple(vid, lightboxIframeWrapper, false);
+        }
+      });
+      lightboxIframeWrapper.appendChild(lbSkipBtn);
+      
       const safetyTimeout = setTimeout(() => {
         if (lightboxLoader) lightboxLoader.style.display = 'none';
         vid.style.opacity = '1';
@@ -1147,6 +1161,25 @@ function initVideoPlaybackControls() {
       setupVideoDblClick(video, video.parentElement || card);
     }
 
+    // Create inline skip 10s button
+    const skipBtn = document.createElement('button');
+    skipBtn.className = 'video-skip-btn';
+    skipBtn.innerHTML = `<span>+10s</span><svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg>`;
+    skipBtn.setAttribute('title', 'Skip forward 10 seconds');
+    skipBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      video.currentTime = Math.min(video.duration || 0, video.currentTime + 10);
+      if (typeof showSkipRipple === 'function') {
+        showSkipRipple(video, video.parentElement || card, false);
+      }
+    });
+
+    const wrapper = card.querySelector('.proj-img-wrapper');
+    if (wrapper) {
+      wrapper.appendChild(skipBtn);
+    }
+
     let isHovered = false;
     let hideTimeout = null;
 
@@ -1261,33 +1294,37 @@ function setupVideoDblClick(video, container) {
       video.currentTime = Math.min(video.duration || 0, video.currentTime + skipAmount);
     }
 
-    // Visual ripple feedback
-    const ripple = document.createElement('div');
-    ripple.className = 'video-skip-ripple';
-    ripple.style.left = isLeft ? '25%' : '75%';
-
-    const arrows = isLeft ? '◀◀' : '▶▶';
-    const text = isLeft ? '-10s' : '+10s';
-    ripple.innerHTML = `<span style="font-size: 1.1rem; margin-bottom: 2px; line-height: 1;">${arrows}</span><span style="font-size: 0.75rem; letter-spacing: 0.05em;">${text}</span>`;
-
-    // Make container relative if static
-    const originalPos = window.getComputedStyle(container).position;
-    if (originalPos === 'static') {
-      container.style.position = 'relative';
-    }
-
-    container.appendChild(ripple);
-
-    // Trigger transition
-    requestAnimationFrame(() => {
-      ripple.style.transform = 'translate(-50%, -50%) scale(1.2)';
-      ripple.style.opacity = '0';
-    });
-
-    setTimeout(() => {
-      ripple.remove();
-    }, 400);
+    showSkipRipple(video, container, isLeft);
   });
+}
+
+/* --- Shared skip ripple feedback animation --- */
+function showSkipRipple(video, container, isLeft) {
+  const ripple = document.createElement('div');
+  ripple.className = 'video-skip-ripple';
+  ripple.style.left = isLeft ? '25%' : '75%';
+
+  const arrows = isLeft ? '◀◀' : '▶▶';
+  const text = isLeft ? '-10s' : '+10s';
+  ripple.innerHTML = `<span style="font-size: 1.1rem; margin-bottom: 2px; line-height: 1;">${arrows}</span><span style="font-size: 0.75rem; letter-spacing: 0.05em;">${text}</span>`;
+
+  // Make container relative if static
+  const originalPos = window.getComputedStyle(container).position;
+  if (originalPos === 'static') {
+    container.style.position = 'relative';
+  }
+
+  container.appendChild(ripple);
+
+  // Trigger transition
+  requestAnimationFrame(() => {
+    ripple.style.transform = 'translate(-50%, -50%) scale(1.2)';
+    ripple.style.opacity = '0';
+  });
+
+  setTimeout(() => {
+    ripple.remove();
+  }, 400);
 }
 
 /* --- Scroll to Top Button --- */
