@@ -19,7 +19,44 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body class="loading">
+  <!-- SPLASH SCREEN / LOADING INTRO -->
+  <div id="splash-screen" class="splash-screen">
+    <!-- Shutter Doors -->
+    <div class="splash-shutter splash-shutter--top"></div>
+    <div class="splash-shutter splash-shutter--bottom"></div>
+    
+    <!-- Cyber Grid Background -->
+    <div class="splash-bg">
+      <div class="splash-grid"></div>
+      <div class="splash-glow"></div>
+    </div>
+
+    <!-- Splash Content -->
+    <div class="splash-content">
+      <div class="splash-branding">
+        <div class="splash-logo">
+          <span class="splash-logo-text">DT<span class="splash-logo-dot">.</span></span>
+          <div class="splash-scanner"></div>
+        </div>
+      </div>
+      
+      <div class="splash-loader">
+        <div class="splash-loader-track">
+          <div class="splash-loader-bar" id="splashLoaderBar"></div>
+        </div>
+        <div class="splash-meta">
+          <span class="splash-status" id="splashStatus">INITIALIZING CORE SYSTEM...</span>
+          <span class="splash-percent" id="splashPercent">00%</span>
+        </div>
+      </div>
+
+      <div class="splash-terminal" id="splashTerminal">
+        <!-- Lines will be appended dynamically via JavaScript -->
+      </div>
+    </div>
+  </div>
+
   <!-- Ambient Background Canvas & Orbs -->
   <canvas id="ambient-canvas" aria-hidden="true"></canvas>
   <div class="hero-orb-a" aria-hidden="true"></div>

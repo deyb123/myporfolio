@@ -3,6 +3,7 @@
    ==================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initSplashScreen();
   initMobileNav();
   initNavScroll();
   initTimelineTabs();
@@ -1321,3 +1322,97 @@ function initViewerTracker() {
       console.error('Error tracking viewer:', error);
     });
 }
+
+/* --- Cool Cyber Splash Screen Initialization --- */
+function initSplashScreen() {
+  const splash = document.getElementById('splash-screen');
+  const bar = document.getElementById('splashLoaderBar');
+  const percent = document.getElementById('splashPercent');
+  const status = document.getElementById('splashStatus');
+  const terminal = document.getElementById('splashTerminal');
+  
+  if (!splash || !bar || !percent || !status || !terminal) return;
+
+  const logLines = [
+    { text: 'SYSTEM: Booting portfolio core...', delay: 100, class: 'system' },
+    { text: 'ASSETS: Loading visual textures...', delay: 350, class: 'default' },
+    { text: 'ASSETS: Mono profile loaded successfully.', delay: 600, class: 'success' },
+    { text: 'THREE: Initializing WebGL engine...', delay: 900, class: 'default' },
+    { text: 'THREE: 3D context created and optimized.', delay: 1100, class: 'success' },
+    { text: 'RENDER: Binding interactive ambient orbits...', delay: 1350, class: 'default' },
+    { text: 'THEME: Custom theme values parsed [cyan/amber]...', delay: 1600, class: 'default' },
+    { text: 'SYSTEM: Interface elements online. Ready.', delay: 1850, class: 'system' }
+  ];
+
+  let progress = 0;
+
+  // Add line to terminal logs
+  const addLog = (line) => {
+    const p = document.createElement('div');
+    p.className = 'splash-log-line';
+    if (line.class) p.classList.add(line.class);
+    p.textContent = `> ${line.text}`;
+    terminal.appendChild(p);
+    terminal.scrollTop = terminal.scrollHeight;
+  };
+
+  // Log simulation interval
+  logLines.forEach((line) => {
+    setTimeout(() => {
+      addLog(line);
+      // Update status string
+      if (line.text.startsWith('ASSETS:')) {
+        status.textContent = 'LOADING STATIC ASSETS...';
+      } else if (line.text.startsWith('THREE:') || line.text.startsWith('RENDER:')) {
+        status.textContent = 'COMPILING 3D UTILITIES...';
+      } else if (line.text.startsWith('THEME:')) {
+        status.textContent = 'SETTING CUSTOM PALETTE...';
+      } else if (line.text.startsWith('SYSTEM: Interface')) {
+        status.textContent = 'MOUNTING WEB SYSTEM...';
+      }
+    }, line.delay);
+  });
+
+  // Progress bar simulation with realistic easing
+  const start = performance.now();
+  const duration = 2200; // 2.2 seconds loading animation
+
+  function updateProgress(now) {
+    const elapsed = now - start;
+    const ratio = Math.min(elapsed / duration, 1);
+    
+    // Non-linear progress simulation: fast, slow down at 85%, then fast finish
+    let simulatedProgress = ratio * 100;
+    if (ratio < 0.7) {
+      simulatedProgress = ratio * 1.2 * 100;
+    } else if (ratio < 0.9) {
+      simulatedProgress = 84 + (ratio - 0.7) * 0.5 * 100;
+    } else {
+      simulatedProgress = 94 + (ratio - 0.9) * 0.6 * 100;
+    }
+    
+    progress = Math.min(Math.floor(simulatedProgress), 100);
+    
+    bar.style.width = progress + '%';
+    percent.textContent = String(progress).padStart(2, '0') + '%';
+
+    if (progress < 100) {
+      requestAnimationFrame(updateProgress);
+    } else {
+      // Progress complete!
+      setTimeout(() => {
+        status.textContent = 'SYSTEM LOAD COMPLETE.';
+        splash.classList.add('loaded');
+        document.body.classList.remove('loading');
+        
+        // Remove from DOM to keep page light and prevent blocking clicks
+        setTimeout(() => {
+          splash.style.display = 'none';
+        }, 1000); // matches the CSS shutter door duration
+      }, 300);
+    }
+  }
+
+  requestAnimationFrame(updateProgress);
+}
+
