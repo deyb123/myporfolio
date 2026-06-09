@@ -837,7 +837,6 @@ function initCoverflowCarousels() {
   function teardownCarousel() {
     const track       = projectsContainer.querySelector('.coverflow-track');
     const controls    = projectsContainer.querySelector('.carousel-controls');
-    const activeTitle = projectsContainer.querySelector('.carousel-active-title');
 
     if (track) {
       if (track.autoplayTimer && track.autoplayTimer.stop) {
@@ -851,7 +850,9 @@ function initCoverflowCarousels() {
       track.remove();
     }
     if (controls)    controls.remove();
-    if (activeTitle) activeTitle.remove();
+    
+    // Clean up any stray titles just in case
+    projectsContainer.querySelectorAll('.carousel-active-title').forEach(el => el.remove());
   }
 
   // Show/hide cards in grid or list view based on current filter
@@ -900,6 +901,9 @@ function initCoverflowCarousels() {
       layoutBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
+      // Temporarily disable transitions so cards don't fly across the screen
+      projectsContainer.classList.add('no-transition');
+
       projectsContainer.classList.remove('view-carousel', 'view-grid', 'view-list');
       projectsContainer.classList.add('view-' + newLayout);
       currentLayout = newLayout;
@@ -917,6 +921,13 @@ function initCoverflowCarousels() {
         });
         applyFilterToFlatCards();
       }
+
+      // Force a synchronous layout calculation so the transition removal applies instantly
+      void projectsContainer.offsetWidth;
+      // Re-enable transitions slightly later so the layout snaps cleanly
+      setTimeout(() => {
+        projectsContainer.classList.remove('no-transition');
+      }, 50);
     });
   });
 
@@ -991,11 +1002,6 @@ function buildCarousel(container) {
   cards.forEach(card => track.appendChild(card));
   container.appendChild(track);
 
-  // ---- Dynamic Title Display ----
-  const activeTitleWrap = document.createElement('div');
-  activeTitleWrap.className = 'carousel-active-title';
-  container.appendChild(activeTitleWrap);
-
   // ---- Controls Wrapper ----
   const controlsWrap = document.createElement('div');
   controlsWrap.className = 'carousel-controls';
@@ -1048,35 +1054,45 @@ function buildCarousel(container) {
 
   // ---- 3D positioning logic ----
   function updateCoverflow() {
-    const isMobile = window.innerWidth <= 640;
-    const N = cards.length;
-    
-    // Cylindrical Carousel parameters
-    const radius = isMobile ? 300 : Math.max(650, (325 + 20) / Math.sin(Math.PI / N)); 
-    const centerZ = isMobile ? -50 : 50; 
-    
-    // Update active title text
-    const activeCard = cards[activeIndex];
-    const projTitle = activeCard.querySelector('.proj-title') ? activeCard.querySelector('.proj-title').textContent : `Item ${activeIndex + 1}`;
-    const projDesc = activeCard.querySelector('.proj-desc') ? activeCard.querySelector('.proj-desc').textContent : ``;
-    activeTitleWrap.innerHTML = `<h4>${projTitle}</h4><p>${projDesc}</p>`;
-    
-    cards.forEach((card, i) => {
+    try {
+      if (!container.classList.contains('view-carousel')) return;
+      
+      const isMobile = window.innerWidth <= 640;
+      const N = cards.length;
+      
+      cards.forEach((card, i) => {
       // Shortest path calculation for infinite circular feeling
       let dist = i - activeIndex;
       if (dist > N / 2) dist -= N;
       if (dist < -N / 2) dist += N;
       
-      const thetaDeg = dist * (360 / N);
-      const thetaRad = thetaDeg * (Math.PI / 180);
-      
-      const xOffset = Math.sin(thetaRad) * radius;
-      const zOffset = Math.cos(thetaRad) * radius - radius + centerZ;
-      const rot = -thetaDeg;
-      
-      card.style.transform = `translate3d(${xOffset}px, 0, ${zOffset}px) rotateY(${rot}deg)`;
-      
       const absDist = Math.abs(dist);
+      const sign = Math.sign(dist); // 1 for right, -1 for left, 0 for center
+      
+      // Standard linear coverflow math
+      // Base offset pushes adjacent cards out by a % of their width.
+      const baseOffset = isMobile ? 65 : 45; 
+      const maxRot = 45;
+      const depthStep = 120; // Reduce depth so they don't shrink too fast
+      
+      // Calculate transforms
+      let xOffset = 0;
+      let zOffset = 0;
+      let rot = 0;
+      
+      if (absDist === 0) {
+        xOffset = 0;
+        zOffset = 50; // Pop out the active card slightly
+        rot = 0;
+      } else {
+        // Increment offset slightly for cards further back
+        xOffset = sign * (baseOffset + (absDist - 1) * 15);
+        zOffset = - (absDist * depthStep);
+        rot = sign * -maxRot;
+      }
+      
+      // We use % for translateX so it scales with the card's width nicely
+      card.style.transform = `translateX(${xOffset}%) translateZ(${zOffset}px) rotateY(${rot}deg)`;
       
       if (absDist === 0) {
         card.style.opacity = '1';
@@ -1086,8 +1102,8 @@ function buildCarousel(container) {
         card.style.filter = 'brightness(1)';
         card.classList.add('coverflow-active');
       } else {
-        const isVisible = absDist <= (N / 3) + 0.5;
-        card.style.opacity = isVisible ? '1' : '0';
+        const isVisible = absDist <= 3; // Show up to 3 cards on each side
+        card.style.opacity = isVisible ? (1 - (absDist * 0.15)).toString() : '0';
         card.style.zIndex = (20 - Math.round(absDist)).toString();
         card.style.visibility = isVisible ? 'visible' : 'hidden';
         card.style.pointerEvents = absDist <= 1 ? 'auto' : 'none';
@@ -1095,6 +1111,9 @@ function buildCarousel(container) {
         card.classList.remove('coverflow-active');
       }
     });
+    } catch (e) {
+      console.error("Safely caught coverflow math error:", e);
+    }
 
     // Update dots
     dots.forEach((dot, i) => {
