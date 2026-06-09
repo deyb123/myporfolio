@@ -3369,25 +3369,47 @@ body.loading {
 .video-skip-ripple {
   position: absolute;
   top: 50%;
-  transform: translate(-50%, -50%) scale(0.8);
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #fff;
-  border-radius: 50%;
-  width: 72px;
-  height: 72px;
   pointer-events: none;
   z-index: 1000;
+  background: rgba(8, 10, 18, 0.92); /* Darker and more opaque for high contrast */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border-radius: 50%;
+  width: 76px;
+  height: 76px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-  transition: transform 0.4s cubic-bezier(0.1, 0.8, 0.1, 1), opacity 0.4s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  animation: skipRipplePop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+@keyframes skipRipplePop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+  30% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  75% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
 
 /* Video Center Controls Overlay */
 .video-overlay-controls {
@@ -3575,8 +3597,8 @@ body.loading {
 .chevron-group.backward span:nth-child(1) { animation-delay: 0.3s; }
 
 @keyframes chevronFlash {
-  0% { opacity: 0.25; color: rgba(255, 255, 255, 0.4); }
-  100% { opacity: 1; color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+  0% { opacity: 0.3; color: rgba(255, 255, 255, 0.45); }
+  100% { opacity: 1; color: #ffffff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 1px 3px rgba(0, 0, 0, 0.8); }
 }
 
 /* Button Icon Spin Micro-interactions */

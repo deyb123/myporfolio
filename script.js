@@ -1468,7 +1468,7 @@ function showSkipRipple(video, container, isLeft) {
       <span>${char}</span>
       <span>${char}</span>
     </div>
-    <span style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1.2;">${text}</span>
+    <span style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1.2; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);">${text}</span>
   `;
 
   // Make container relative if static
@@ -1483,8 +1483,6 @@ function showSkipRipple(video, container, isLeft) {
   // Trigger animations
   requestAnimationFrame(() => {
     blurOverlay.classList.add('active');
-    ripple.style.transform = 'translate(-50%, -50%) scale(1.2)';
-    ripple.style.opacity = '0';
   });
 
   setTimeout(() => {
@@ -1493,7 +1491,7 @@ function showSkipRipple(video, container, isLeft) {
       blurOverlay.remove();
       ripple.remove();
     }, 350);
-  }, 400);
+  }, 800);
 }
 
 /* --- Scroll to Top Button --- */
