@@ -834,6 +834,9 @@ function initCoverflowCarousels() {
     const activeTitle = projectsContainer.querySelector('.carousel-active-title');
 
     if (track) {
+      if (track.autoplayTimer && track.autoplayTimer.stop) {
+        track.autoplayTimer.stop();
+      }
       // Move cards back to container before removing track
       Array.from(track.querySelectorAll('.proj-card')).forEach(card => {
         resetCard(card);
@@ -1020,17 +1023,31 @@ function buildCarousel(container) {
   controlsWrap.appendChild(prevBtn);
   controlsWrap.appendChild(dotsWrap);
   controlsWrap.appendChild(nextBtn);
-  container.appendChild(controlsWrap);
+  container.appendChild(controlsWrap);  let activeIndex = 0;
+  let autoplayInterval;
 
-  let activeIndex = 0;
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayInterval = setInterval(() => {
+      nextBtn.click();
+    }, 3000); // Autoplay every 3 seconds
+  }
+
+  function stopAutoplay() {
+    if (autoplayInterval) clearInterval(autoplayInterval);
+  }
+
+  // Store timer on track so teardown can clear it
+  track.autoplayTimer = { start: startAutoplay, stop: stopAutoplay };
 
   // ---- 3D positioning logic ----
   function updateCoverflow() {
     const isMobile = window.innerWidth <= 640;
+    const N = cards.length;
     
-    // Flat Overlap parameters to match reference
-    const peek = isMobile ? 50 : 160; 
-    const scaleDrop = 0.15; 
+    // Cylindrical Carousel parameters
+    const radius = isMobile ? 300 : Math.max(650, (325 + 20) / Math.sin(Math.PI / N)); 
+    const centerZ = isMobile ? -50 : 50; 
     
     // Update active title text
     const activeCard = cards[activeIndex];
@@ -1039,35 +1056,36 @@ function buildCarousel(container) {
     activeTitleWrap.innerHTML = `<h4>${projTitle}</h4><p>${projDesc}</p>`;
     
     cards.forEach((card, i) => {
-      if (i === activeIndex) {
-        card.style.transform = 'translate3d(0, 0, 0) scale(1)';
+      // Shortest path calculation for infinite circular feeling
+      let dist = i - activeIndex;
+      if (dist > N / 2) dist -= N;
+      if (dist < -N / 2) dist += N;
+      
+      const thetaDeg = dist * (360 / N);
+      const thetaRad = thetaDeg * (Math.PI / 180);
+      
+      const xOffset = Math.sin(thetaRad) * radius;
+      const zOffset = Math.cos(thetaRad) * radius - radius + centerZ;
+      const rot = -thetaDeg;
+      
+      card.style.transform = `translate3d(${xOffset}px, 0, ${zOffset}px) rotateY(${rot}deg)`;
+      
+      const absDist = Math.abs(dist);
+      
+      if (absDist === 0) {
         card.style.opacity = '1';
         card.style.zIndex = '20';
         card.style.visibility = 'visible';
         card.style.pointerEvents = 'auto';
         card.style.filter = 'brightness(1)';
         card.classList.add('coverflow-active');
-      } else if (i < activeIndex) {
-        const dist = activeIndex - i;
-        const xOffset = isMobile ? - (dist * 40 + 60) : - (dist * peek + 180);
-        const scale = 1 - (dist * scaleDrop);
-        card.style.transform = `translate3d(${xOffset}px, 0, 0) scale(${scale})`;
-        card.style.opacity = dist > 2 ? '0' : '1';
-        card.style.zIndex = (10 - dist).toString();
-        card.style.visibility = dist > 2 ? 'hidden' : 'visible';
-        card.style.pointerEvents = dist > 2 ? 'none' : 'auto';
-        card.style.filter = `brightness(${1 - dist * 0.2})`;
-        card.classList.remove('coverflow-active');
       } else {
-        const dist = i - activeIndex;
-        const xOffset = isMobile ? (dist * 40 + 60) : (dist * peek + 180);
-        const scale = 1 - (dist * scaleDrop);
-        card.style.transform = `translate3d(${xOffset}px, 0, 0) scale(${scale})`;
-        card.style.opacity = dist > 2 ? '0' : '1';
-        card.style.zIndex = (10 - dist).toString();
-        card.style.visibility = dist > 2 ? 'hidden' : 'visible';
-        card.style.pointerEvents = dist > 2 ? 'none' : 'auto';
-        card.style.filter = `brightness(${1 - dist * 0.2})`;
+        const isVisible = absDist <= (N / 3) + 0.5;
+        card.style.opacity = isVisible ? '1' : '0';
+        card.style.zIndex = (20 - Math.round(absDist)).toString();
+        card.style.visibility = isVisible ? 'visible' : 'hidden';
+        card.style.pointerEvents = absDist <= 1 ? 'auto' : 'none';
+        card.style.filter = `brightness(${1 - absDist * 0.25})`;
         card.classList.remove('coverflow-active');
       }
     });
@@ -1077,7 +1095,7 @@ function buildCarousel(container) {
       dot.classList.toggle('active', i === activeIndex);
     });
 
-    // Update buttons (always enabled for infinite looping)
+    // Update buttons
     prevBtn.disabled = false;
     prevBtn.style.opacity = '1';
     nextBtn.disabled = false;
@@ -1092,27 +1110,22 @@ function buildCarousel(container) {
         e.stopPropagation();
         activeIndex = i;
         updateCoverflow();
+        startAutoplay(); // reset timer on manual interaction
       }
     });
   });
 
   // ---- Arrow navigation ----
   prevBtn.addEventListener('click', () => {
-    if (activeIndex > 0) {
-      activeIndex--;
-    } else {
-      activeIndex = cards.length - 1;
-    }
+    activeIndex = (activeIndex > 0) ? activeIndex - 1 : cards.length - 1;
     updateCoverflow();
+    startAutoplay(); // reset timer
   });
 
   nextBtn.addEventListener('click', () => {
-    if (activeIndex < cards.length - 1) {
-      activeIndex++;
-    } else {
-      activeIndex = 0;
-    }
+    activeIndex = (activeIndex < cards.length - 1) ? activeIndex + 1 : 0;
     updateCoverflow();
+    startAutoplay(); // reset timer
   });
 
   // ---- Drag / Swipe support ----
@@ -1123,8 +1136,7 @@ function buildCarousel(container) {
   function handleStart(clientX) {
     startX = clientX;
     isDragging = true;
-    
-    // Add temporary window listeners to track mouse movement
+    stopAutoplay();
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleEnd);
   }
@@ -1137,12 +1149,12 @@ function buildCarousel(container) {
     if (!isDragging) return;
     const diff = clientX - startX;
     if (Math.abs(diff) > threshold) {
-      if (diff > 0 && activeIndex > 0) {
-        activeIndex--;
+      if (diff > 0) {
+        activeIndex = (activeIndex > 0) ? activeIndex - 1 : cards.length - 1;
         updateCoverflow();
         handleEnd();
-      } else if (diff < 0 && activeIndex < cards.length - 1) {
-        activeIndex++;
+      } else if (diff < 0) {
+        activeIndex = (activeIndex < cards.length - 1) ? activeIndex + 1 : 0;
         updateCoverflow();
         handleEnd();
       }
@@ -1151,30 +1163,31 @@ function buildCarousel(container) {
 
   function handleEnd() {
     isDragging = false;
+    startAutoplay();
     window.removeEventListener('mousemove', handleMouseMove);
     window.removeEventListener('mouseup', handleEnd);
   }
 
   // Bind mouse drag initialization on track
   track.addEventListener('mousedown', (e) => {
-    // Only drag with primary mouse button click
-    if (e.button === 0) {
-      handleStart(e.clientX);
-    }
+    if (e.button === 0) handleStart(e.clientX);
   });
 
   // Prevent default browser drag-ghosting on images/links
-  track.addEventListener('dragstart', (e) => {
-    e.preventDefault();
-  });
+  track.addEventListener('dragstart', (e) => e.preventDefault());
 
-  // Bind touch events directly to track (always active)
+  // Bind touch events directly to track
   track.addEventListener('touchstart', (e) => handleStart(e.touches[0].clientX), { passive: true });
   track.addEventListener('touchmove', (e) => handleMove(e.touches[0].clientX), { passive: true });
   track.addEventListener('touchend', handleEnd);
 
-  // Initial layout
+  // Pause on hover over container
+  container.addEventListener('mouseenter', stopAutoplay);
+  container.addEventListener('mouseleave', startAutoplay);
+
+  // Initial layout and start
   updateCoverflow();
+  startAutoplay();
 
   // Handle window resize
   window.addEventListener('resize', updateCoverflow);
