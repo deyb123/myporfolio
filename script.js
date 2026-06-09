@@ -246,10 +246,12 @@ function initLightbox() {
           }
           
           let startTime = 0;
+          let wasPlaying = false;
           if (type === 'video') {
             const inlineVid = c.querySelector('video');
             if (inlineVid) {
               startTime = inlineVid.currentTime;
+              wasPlaying = !inlineVid.paused;
             }
           }
 
@@ -257,7 +259,8 @@ function initLightbox() {
             type: type,
             src: iframeUrl ? iframeUrl : img.src,
             title: title ? title.textContent : '',
-            startTime: startTime
+            startTime: startTime,
+            wasPlaying: wasPlaying
           });
 
           if (c === card) {
@@ -374,7 +377,7 @@ function initLightbox() {
       const vid = document.createElement('video');
       vid.src = current.src;
       vid.controls = true;
-      vid.autoplay = true;
+      vid.autoplay = current.wasPlaying || false;
       vid.className = 'lightbox-video';
       vid.style.cssText = 'width:100%;height:100%;border-radius:12px;background:#000;opacity:0;';
       
