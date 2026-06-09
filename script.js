@@ -414,6 +414,10 @@ function initLightbox() {
       lbBackBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         vid.currentTime = Math.max(0, vid.currentTime - 10);
+        
+        lbBackBtn.classList.add('spin-counter-clockwise');
+        setTimeout(() => lbBackBtn.classList.remove('spin-counter-clockwise'), 500);
+        
         if (typeof showSkipRipple === 'function') {
           showSkipRipple(vid, lightboxIframeWrapper, true);
         }
@@ -426,6 +430,10 @@ function initLightbox() {
       lbForwardBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         vid.currentTime = Math.min(vid.duration || 0, vid.currentTime + 10);
+        
+        lbForwardBtn.classList.add('spin-clockwise');
+        setTimeout(() => lbForwardBtn.classList.remove('spin-clockwise'), 500);
+
         if (typeof showSkipRipple === 'function') {
           showSkipRipple(vid, lightboxIframeWrapper, false);
         }
@@ -1242,6 +1250,10 @@ function initVideoPlaybackControls() {
       e.preventDefault();
       e.stopPropagation();
       video.currentTime = Math.max(0, video.currentTime - 10);
+      
+      backBtn.classList.add('spin-counter-clockwise');
+      setTimeout(() => backBtn.classList.remove('spin-counter-clockwise'), 500);
+
       if (typeof showSkipRipple === 'function') {
         showSkipRipple(video, video.parentElement || card, true);
       }
@@ -1255,6 +1267,10 @@ function initVideoPlaybackControls() {
       e.preventDefault();
       e.stopPropagation();
       video.currentTime = Math.min(video.duration || 0, video.currentTime + 10);
+      
+      forwardBtn.classList.add('spin-clockwise');
+      setTimeout(() => forwardBtn.classList.remove('spin-clockwise'), 500);
+
       if (typeof showSkipRipple === 'function') {
         showSkipRipple(video, video.parentElement || card, false);
       }
@@ -1437,9 +1453,18 @@ function showSkipRipple(video, container, isLeft) {
   ripple.className = 'video-skip-ripple';
   ripple.style.left = isLeft ? '25%' : '75%';
 
-  const arrows = isLeft ? '◀◀' : '▶▶';
+  const directionClass = isLeft ? 'backward' : 'forward';
+  const char = isLeft ? '◀' : '▶';
   const text = isLeft ? '-10s' : '+10s';
-  ripple.innerHTML = `<span style="font-size: 1.1rem; margin-bottom: 2px; line-height: 1;">${arrows}</span><span style="font-size: 0.75rem; letter-spacing: 0.05em;">${text}</span>`;
+  
+  ripple.innerHTML = `
+    <div class="chevron-group ${directionClass}">
+      <span>${char}</span>
+      <span>${char}</span>
+      <span>${char}</span>
+    </div>
+    <span style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1.2;">${text}</span>
+  `;
 
   // Make container relative if static
   const originalPos = window.getComputedStyle(container).position;

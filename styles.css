@@ -3552,6 +3552,53 @@ body.loading {
   height: 18px;
 }
 
+/* Sequential Chevron Ripple Animation */
+.chevron-group {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 4px;
+}
+
+.chevron-group span {
+  font-size: 1.2rem;
+  font-weight: 700;
+  opacity: 0.25;
+  animation: chevronFlash 0.6s infinite alternate;
+}
+
+.chevron-group.forward span:nth-child(1) { animation-delay: 0s; }
+.chevron-group.forward span:nth-child(2) { animation-delay: 0.15s; }
+.chevron-group.forward span:nth-child(3) { animation-delay: 0.3s; }
+
+.chevron-group.backward span:nth-child(3) { animation-delay: 0s; }
+.chevron-group.backward span:nth-child(2) { animation-delay: 0.15s; }
+.chevron-group.backward span:nth-child(1) { animation-delay: 0.3s; }
+
+@keyframes chevronFlash {
+  0% { opacity: 0.25; color: rgba(255, 255, 255, 0.4); }
+  100% { opacity: 1; color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+}
+
+/* Button Icon Spin Micro-interactions */
+@keyframes spinClockwise {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spinCounterClockwise {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+.spin-clockwise svg {
+  animation: spinClockwise 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spin-counter-clockwise svg {
+  animation: spinCounterClockwise 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
 
 
 
