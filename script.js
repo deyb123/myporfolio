@@ -215,6 +215,12 @@ function initLightbox() {
         return;
       }
 
+      // If it's a video card, ONLY open lightbox if the user clicked the expand button
+      const isVideoCard = card.dataset.category === 'videos';
+      if (isVideoCard && !e.target.closest('.video-expand-btn')) {
+        return;
+      }
+
       // Check if it's an iframe card or image card
       const isIframe = card.hasAttribute('data-iframe');
       const clickedImg = card.querySelector('img.proj-img');
@@ -1209,13 +1215,40 @@ function initVideoPlaybackControls() {
       }
     });
 
+    const expandBtn = document.createElement('button');
+    expandBtn.className = 'video-overlay-btn video-expand-btn';
+    expandBtn.setAttribute('title', 'Expand to fullscreen');
+    expandBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>`;
+
     const wrapper = card.querySelector('.proj-img-wrapper');
     if (wrapper) {
       wrapper.appendChild(controlsContainer);
       controlsContainer.appendChild(backBtn);
       controlsContainer.appendChild(videoPlayIcon);
       controlsContainer.appendChild(forwardBtn);
+      controlsContainer.appendChild(expandBtn);
     }
+
+    // Toggle play inline when clicking the video or the play icon overlay
+    video.style.cursor = 'pointer';
+    const toggleInlinePlay = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Toggle active states for carousels if not focused
+      if (card.closest('.coverflow-track') && !card.classList.contains('coverflow-active')) {
+        return; // Let card focus click trigger first
+      }
+
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    };
+
+    video.addEventListener('click', toggleInlinePlay);
+    videoPlayIcon.addEventListener('click', toggleInlinePlay);
 
     let isHovered = false;
     let hideTimeout = null;
