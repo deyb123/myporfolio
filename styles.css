@@ -3598,35 +3598,33 @@ body.loading {
   animation: spinCounterClockwise 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Side Blur Overlays for Rewind/Forward Click (YouTube/Netflix curved style) */
+/* Side Ripple Overlays for Rewind/Forward Click (YouTube/Netflix style soft ripple) */
 .video-side-blur {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 42%; /* Slightly narrower for a cleaner curved ripple shape */
+  width: 45%;
   z-index: 99;
   pointer-events: none;
   opacity: 0;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   transition: opacity 0.35s cubic-bezier(0.1, 0.8, 0.1, 1), transform 0.35s cubic-bezier(0.1, 0.8, 0.1, 1);
   will-change: transform, opacity;
 }
 
 .video-side-blur.left {
   left: 0;
-  background: radial-gradient(circle at left center, rgba(5, 7, 14, 0.6) 0%, rgba(5, 7, 14, 0.3) 50%, transparent 100%);
-  border-radius: 0 100% 100% 0 / 0 50% 50% 0; /* Creates an elliptical arch outwards */
+  background: radial-gradient(circle at left center, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.03) 60%, transparent 100%);
+  border-radius: 0 100% 100% 0 / 0 50% 50% 0; /* Smooth elliptical curved arch */
   transform-origin: left center;
-  transform: scaleX(0.45);
+  transform: scaleX(0.4);
 }
 
 .video-side-blur.right {
   right: 0;
-  background: radial-gradient(circle at right center, rgba(5, 7, 14, 0.6) 0%, rgba(5, 7, 14, 0.3) 50%, transparent 100%);
-  border-radius: 100% 0 0 100% / 50% 0 0 50%; /* Creates an elliptical arch outwards */
+  background: radial-gradient(circle at right center, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.03) 60%, transparent 100%);
+  border-radius: 100% 0 0 100% / 50% 0 0 50%; /* Smooth elliptical curved arch */
   transform-origin: right center;
-  transform: scaleX(0.45);
+  transform: scaleX(0.4);
 }
 
 .video-side-blur.active {
