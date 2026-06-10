@@ -1041,6 +1041,21 @@ function buildCarousel(container) {
   function startAutoplay() {
     stopAutoplay();
     autoplayInterval = setInterval(() => {
+      // Pause if lightbox is active
+      const lightbox = document.getElementById('lightbox');
+      if (lightbox && lightbox.classList.contains('active')) return;
+
+      // Pause if any video in this carousel is playing
+      let isPlaying = false;
+      const videos = container.querySelectorAll('video');
+      videos.forEach(v => {
+        if (!v.paused && !v.ended) isPlaying = true;
+      });
+      if (isPlaying) return;
+
+      // Pause if user is hovering over the carousel
+      if (container.matches(':hover')) return;
+
       nextBtn.click();
     }, 3000); // Autoplay every 3 seconds
   }
