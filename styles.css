@@ -532,56 +532,314 @@ nav.collapsed .nav-cta {
   align-items: center;
 }
 
-.hero-redesign .hero-image-wrapper {
+.hero-redesign .ig-popout-wrapper {
   position: relative;
   width: 100%;
   height: 100%;
   min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.hero-redesign .hero-image-wrapper::before {
-  content: '';
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  right: 10%;
-  bottom: 10%;
-  background: var(--cyan);
+/* Instagram Frame - Cyber Theme */
+.ig-frame {
+  position: relative;
+  width: 340px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0, 229, 255, 0.1);
+  z-index: 2; 
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ig-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-light);
+  z-index: 10;
+  background: var(--bg-alt);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.ig-header-left, .ig-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ig-avatar {
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.15;
-  z-index: -1;
-  animation: slowPulse 6s infinite alternate ease-in-out;
-  pointer-events: none;
-}
-
-@keyframes slowPulse {
-  from { transform: scale(0.9); opacity: 0.1; }
-  to { transform: scale(1.1); opacity: 0.25; }
-}
-
-.hero-redesign .hero-profile-img {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
-  object-position: center;
-  border-radius: 0;
-  border: none;
-  box-shadow: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
+  border: 2px solid var(--cyan);
 }
 
-/* Fades the right side and bottom of the image into the background */
-.hero-redesign .image-fade-mask {
+.ig-username {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.ig-follow-btn {
+  background: transparent;
+  border: none;
+  color: var(--cyan);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.ig-more-opts {
+  color: var(--text);
+  cursor: pointer;
+}
+
+.ig-photo-area {
+  width: calc(100% - 28px);
+  margin: 0 auto;
+  height: 312px; 
+  position: relative;
+  border-radius: 8px;
+  box-shadow: inset 0 8px 15px rgba(0,0,0,0.6);
+  background: var(--bg);
+}
+
+.ig-bg-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, transparent 50%, var(--bg) 95%), 
-              linear-gradient(to top, var(--bg) 0%, transparent 20%);
-  z-index: 2;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(11, 15, 25, 0.4) 0%, rgba(16, 21, 36, 0.6) 50%, rgba(0, 229, 255, 0.15) 100%);
+  z-index: 1;
   pointer-events: none;
+}
+
+/* The actual pop-out subject */
+.ig-popout-img {
+  position: absolute;
+  bottom: 0px; 
+  left: 0;
+  width: 100%;
+  height: 115%; 
+  object-fit: cover; 
+  object-position: bottom center;
+  z-index: 20; 
+  filter: grayscale(100%) contrast(1.05);
+  pointer-events: none;
+}
+
+.ig-footer {
+  padding: 12px 14px;
+  background: var(--bg-alt);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ig-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ig-actions-left, .ig-actions-right {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.ig-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--text);
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.ig-icon:hover {
+  color: var(--cyan);
+  transform: scale(1.1) translateY(-2px);
+  filter: drop-shadow(0 0 8px var(--cyan-high));
+}
+
+.ig-likes {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.ig-caption {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.ig-caption strong {
+  color: var(--text);
+}
+
+.ig-hashtag {
+  color: var(--cyan);
+}
+
+/* Top Notification Tooltip */
+.ig-top-tooltip {
+  position: absolute;
+  top: -55px; /* Push it completely above the card */
+  left: -25px; /* Align to the top left corner */
+  background: var(--bg-alt);
+  border: 1px solid var(--cyan);
+  border-radius: 8px;
+  padding: 8px 16px; /* Slightly wider padding for breathing room */
+  display: flex;
+  gap: 16px; /* Increase gap between icons slightly */
+  z-index: 30;
+  box-shadow: 0 10px 20px rgba(0, 229, 255, 0.2);
+  animation: floatTooltip 4s infinite ease-in-out;
+}
+
+.tooltip-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--cyan);
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.tooltip-arrow {
+  position: absolute;
+  bottom: -6px;
+  left: 20%;
+  width: 12px;
+  height: 12px;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--cyan);
+  border-right: 1px solid var(--cyan);
+  transform: rotate(45deg);
+}
+
+@keyframes floatTooltip {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); filter: drop-shadow(0 0 10px var(--cyan-high)); }
+}
+
+/* Floating Heart Bubbles (Right Side) */
+.ig-floating-hearts {
+  position: absolute;
+  top: 0;
+  right: -50px; 
+  width: 60px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 25;
+}
+
+.heart-bubble {
+  position: absolute;
+  background: var(--bg-alt);
+  border: 1px solid var(--cyan);
+  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+  animation: floatHeartBubble 6s infinite ease-in-out;
+}
+
+.heart-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 16px;
+  width: 12px;
+  height: 12px;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--cyan);
+  border-right: 1px solid var(--cyan);
+  transform: rotate(45deg);
+}
+
+.heart-bubble svg {
+  color: var(--cyan);
+  width: 24px;
+  height: 24px;
+  fill: var(--cyan);
+}
+
+.hb-1 { bottom: 15%; right: 0; --s: 1; --rot: 5deg; animation-delay: 0s; }
+.hb-2 { bottom: 45%; right: -20px; --s: 0.85; --rot: -12deg; animation-delay: -2s; }
+.hb-3 { bottom: 75%; right: 10px; --s: 1.15; --rot: 8deg; animation-delay: -4s; }
+
+@keyframes floatHeartBubble {
+  0%, 100% { transform: translateY(0) scale(var(--s, 1)) rotate(var(--rot, 0deg)); }
+  50% { transform: translateY(-40px) scale(var(--s, 1)) rotate(calc(var(--rot, 0deg) + 15deg)); filter: drop-shadow(0 0 12px var(--cyan-high)); }
+}
+
+/* Scattered Bottom Notifications */
+.ig-scattered-badges {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 100px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.scatter-badge {
+  position: absolute;
+  background: var(--bg-alt);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+  animation: scatterFloat 6s infinite ease-in-out;
+}
+
+.scatter-badge svg {
+  color: var(--cyan);
+  width: 14px;
+  height: 14px;
+}
+
+.b-1 { bottom: 20px; left: 5%; --rot: -15deg; --s: 1; animation-delay: 0s; }
+.b-2 { bottom: -10px; left: 20%; --rot: 10deg; --s: 1.1; animation-delay: -1s; z-index: 5; }
+.b-3 { bottom: 30px; left: 35%; --rot: -5deg; --s: 0.9; animation-delay: -2s; }
+.b-4 { bottom: -20px; right: 35%; --rot: 20deg; --s: 1.2; animation-delay: -3s; z-index: 6; }
+.b-5 { bottom: 10px; right: 15%; --rot: -10deg; --s: 1; animation-delay: -4s; }
+.b-6 { bottom: -5px; right: 0%; --rot: 15deg; --s: 0.85; animation-delay: -5s; }
+
+@keyframes scatterFloat {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)) scale(var(--s, 1)); }
+  50% { transform: translateY(-10px) rotate(calc(var(--rot, 0deg) + 5deg)) scale(var(--s, 1)); }
 }
 
 
